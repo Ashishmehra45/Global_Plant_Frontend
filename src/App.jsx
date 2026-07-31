@@ -4,6 +4,8 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 import Products from './pages/Products';
+import Sustainability from './pages/Sustainability';
+import Blog from './pages/Blog';
 // import GlobalPresence from './pages/GlobalPresence';
 
 function App() {
@@ -16,6 +18,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/sustainability" element={<Sustainability />} />
+            <Route path="/blog" element={<Blog />} />
+
             {/* <Route path="/global-presence" element={<GlobalPresence />} /> */}
           </Routes>
         </main>

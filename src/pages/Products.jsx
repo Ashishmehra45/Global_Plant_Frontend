@@ -1,23 +1,39 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, ArrowRight, PackageOpen } from 'lucide-react';
+import { Search, ArrowRight, PackageOpen, Sparkles } from 'lucide-react';
 import { productsData, categories } from '../data/products';
+
+// Premium Background Images Array
+const heroBackgrounds = [
+  "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=2070", // Spices
+  "https://i.pinimg.com/736x/eb/f4/3c/ebf43c6b42871de641ac82c7aef29e82.jpg", // Basmati Rice
+  "https://i.pinimg.com/1200x/02/36/58/023658ea46c4f32c3781ae73cc8526fb.jpg", // Pulses/Grains
+  "https://i.pinimg.com/1200x/42/8c/8e/428c8e06eb83089233a34167ac72a0e8.jpg"  // Soyabean/Farms
+];
 
 const Products = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredProducts, setFilteredProducts] = useState(productsData);
+  const [bgIndex, setBgIndex] = useState(0);
+
+  // Background Slider Logic
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBgIndex((prevIndex) => (prevIndex + 1) % heroBackgrounds.length);
+    }, 4500); 
+    
+    return () => clearInterval(interval);
+  }, []);
 
   // Filter Logic
   useEffect(() => {
     let result = productsData;
     
-    // Category Filter
     if (activeCategory !== 'All') {
       result = result.filter(product => product.category === activeCategory);
     }
     
-    // Search Filter
     if (searchQuery) {
       result = result.filter(product => 
         product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -29,149 +45,197 @@ const Products = () => {
   }, [activeCategory, searchQuery]);
 
   return (
-    <div className="w-full bg-gray-50 min-h-screen pb-24">
+    <div className="w-full bg-[#f8fafc] min-h-screen pb-32 font-sans selection:bg-green-500 selection:text-white relative overflow-hidden">
       
-      {/* 1. Stunning Hero Banner */}
-      <section className="relative h-[45vh] flex items-center justify-center overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=2070')" }}
-        />
-        <div className="absolute inset-0 bg-agro-dark/80 backdrop-blur-sm" />
+      {/* Background Soft Orbs */}
+      <div className="absolute top-0 left-0 w-full h-[60vh] bg-gradient-to-b from-green-50/50 to-transparent pointer-events-none"></div>
+      <div className="absolute top-40 right-[-10%] w-[500px] h-[500px] bg-teal-200/20 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-20 left-[-10%] w-[400px] h-[400px] bg-green-200/20 rounded-full blur-[100px] pointer-events-none"></div>
+
+      {/* 1. Dynamic Auto-Sliding Hero Banner - FIXED HEIGHT & OVERLAP */}
+      <section className="relative min-h-[60vh] py-24 flex items-center justify-center overflow-hidden rounded-b-[3rem] mx-2 sm:mx-4 mt-4 shadow-2xl bg-gray-950">
         
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto mt-20">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+        {/* Animated Background Images */}
+        <AnimatePresence mode="popLayout">
+          <motion.img
+            key={bgIndex}
+            src={heroBackgrounds[bgIndex]}
+            alt="Agriculture Background"
+            initial={{ opacity: 0, scale: 1.15 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-white/20"
-          >
-            <PackageOpen className="w-8 h-8 text-agro-accent" />
-          </motion.div>
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        </AnimatePresence>
+
+        {/* Lighter Gradient Overlay - Now images will be visible! */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80 z-10" />
+        
+        {/* Content Wrapper - Added padding bottom (pb-12) to save text from getting cut */}
+        <div className="relative z-20 text-center px-4 max-w-4xl mx-auto flex flex-col items-center pb-24">
+          
+          
           <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-5xl md:text-6xl font-extrabold text-white font-heading mb-4"
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="text-5xl md:text-7xl font-black text-white font-heading mb-6 tracking-tight leading-tight"
           >
-            Our Premium <span className="text-agro-accent">Catalogue</span>
+            Our Premium <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-400">Commodities</span>
           </motion.h1>
+          
           <motion.p 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg text-gray-300 max-w-2xl mx-auto"
+            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+            className="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto font-light leading-relaxed"
           >
-            Explore our diverse range of high-quality agricultural commodities, sourced directly from the finest farms in India.
+            Explore our diverse range of high-quality agricultural exports, ethically sourced directly from the finest farms in India.
           </motion.p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
         
-        {/* 2. Interactive Filter & Search Bar */}
+        {/* 2. Floating Glassmorphism Control Center - Margins Adjusted */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="bg-white rounded-[2rem] p-6 shadow-xl flex flex-col lg:flex-row justify-between items-center gap-6 mb-16 border border-gray-100"
+          transition={{ duration: 0.8, delay: 0.5, type: "spring" }}
+          className="bg-white/90 backdrop-blur-2xl rounded-full p-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col lg:flex-row justify-between items-center gap-4 -mt-16 mb-20 max-w-5xl mx-auto relative z-30"
         >
-          {/* Category Pills */}
-          <div className="flex flex-wrap justify-center lg:justify-start gap-3 w-full lg:w-auto">
+          {/* iOS Style Category Pills */}
+          <div className="flex overflow-x-auto no-scrollbar w-full lg:w-auto p-1 gap-2">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 ${
+                className={`relative px-6 py-3 rounded-full font-bold text-sm transition-all duration-300 whitespace-nowrap overflow-hidden ${
                   activeCategory === cat 
-                    ? 'bg-agro-primary text-white shadow-md scale-105' 
-                    : 'bg-gray-100 text-gray-600 hover:bg-agro-light hover:text-agro-primary'
+                    ? 'text-white shadow-md' 
+                    : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100/50'
                 }`}
               >
+                {activeCategory === cat && (
+                  <motion.div 
+                    layoutId="activeCategoryTab"
+                    className="absolute inset-0 bg-gradient-to-r from-green-600 to-teal-600 rounded-full -z-10"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
                 {cat}
               </button>
             ))}
           </div>
 
-          {/* Search Box */}
-          <div className="relative w-full lg:w-72">
+          {/* Premium Search Box */}
+          <div className="relative w-full lg:w-80 flex-shrink-0">
             <input 
               type="text" 
-              placeholder="Search products..." 
+              placeholder="Search catalogue..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-gray-50 border border-gray-200 text-gray-800 rounded-full py-3 pl-12 pr-4 focus:outline-none focus:ring-2 focus:ring-agro-primary focus:border-transparent transition-all"
+              className="w-full bg-gray-50/50 hover:bg-gray-100/80 border border-gray-200 text-gray-900 font-medium rounded-full py-3.5 pl-12 pr-6 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all shadow-inner"
             />
-            <Search className="absolute left-4 top-3.5 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-4 top-4 text-gray-400 w-5 h-5" />
           </div>
         </motion.div>
 
-        {/* 3. Animated Product Grid */}
+        {/* 3. Liquid Animated Product Grid */}
         <motion.div 
           layout 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 [perspective:1200px]"
         >
-          <AnimatePresence>
+          <AnimatePresence mode='popLayout'>
             {filteredProducts.length > 0 ? (
-              filteredProducts.map((product) => (
+              filteredProducts.map((product, index) => (
                 <motion.div
-                  layout
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  transition={{ duration: 0.4, type: "spring", stiffness: 100 }}
+                  layout 
+                  initial={{ opacity: 0, scale: 0.8, rotateX: 30, y: 50 }}
+                  animate={{ opacity: 1, scale: 1, rotateX: 0, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, filter: "blur(10px)", transition: { duration: 0.2 } }}
+                  transition={{ 
+                    duration: 0.5, 
+                    type: "spring", 
+                    bounce: 0.4,
+                    delay: index * 0.05 
+                  }}
                   key={product.id}
-                  className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col h-full"
+                  className="group preserve-3d"
                 >
-                  {/* Image Section with Zoom */}
-                  <div className="relative h-56 overflow-hidden">
-                    <img 
-                      src={product.image} 
-                      alt={product.name} 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
-                    />
-                    {/* Dark gradient overlay on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    
-                    {/* Category Badge */}
-                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-agro-primary shadow-sm">
-                      {product.category}
+                  <motion.div 
+                    whileHover={{ y: -12, rotateX: 5, rotateY: -5 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className="bg-white rounded-[2rem] overflow-hidden shadow-lg hover:shadow-[0_30px_50px_-15px_rgba(0,0,0,0.15)] transition-shadow duration-500 border border-gray-100 flex flex-col h-full relative"
+                  >
+                    {/* Image Section */}
+                    <div className="relative h-64 overflow-hidden bg-gray-100">
+                      <img 
+                        src={product.image} 
+                        alt={product.name} 
+                        // Image fallback taaki agar link toote toh UI kharab na ho
+                        onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=2070"; }}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500"></div>
+                      
+                      <div className="absolute top-5 right-5 bg-white/20 backdrop-blur-xl px-4 py-1.5 rounded-full text-xs font-black tracking-wider text-white shadow-xl border border-white/30 transform group-hover:scale-105 transition-transform z-10">
+                        {product.category}
+                      </div>
+
+                      <div className="absolute bottom-5 left-5 right-5 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-20">
+                         <div className="bg-white/20 backdrop-blur-md border border-white/40 text-white text-center py-2 rounded-xl font-bold text-sm tracking-wide">
+                            View Specifications
+                         </div>
+                      </div>
                     </div>
-                  </div>
-                  
-                  {/* Content Section */}
-                  <div className="p-6 flex flex-col flex-grow relative bg-white z-10">
-                    <h3 className="text-xl font-bold font-heading text-gray-900 mb-3 group-hover:text-agro-primary transition-colors line-clamp-1">
-                      {product.name}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-6 flex-grow line-clamp-3 leading-relaxed">
-                      {product.desc}
-                    </p>
                     
-                    {/* Bottom Action */}
-                    <div className="border-t border-gray-100 pt-4 flex justify-between items-center mt-auto">
-                      <button className="flex items-center gap-2 text-agro-dark font-bold hover:text-agro-primary transition-colors text-sm uppercase tracking-wide">
-                        View Details <ArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform" />
-                      </button>
+                    {/* Content Section */}
+                    <div className="p-8 flex flex-col flex-grow relative bg-white z-10 rounded-b-[2rem]">
+                      <h3 className="text-2xl font-black font-heading text-gray-900 mb-3 group-hover:text-green-600 transition-colors line-clamp-1">
+                        {product.name}
+                      </h3>
+                      <p className="text-gray-500 text-sm mb-8 flex-grow line-clamp-3 leading-relaxed font-medium">
+                        {product.desc}
+                      </p>
+                      
+                      <div className="border-t border-gray-100 pt-5 flex justify-between items-center mt-auto">
+                        <button className="flex items-center gap-3 text-gray-900 font-bold group-hover:text-green-600 transition-colors text-sm uppercase tracking-widest w-full">
+                          <span className="relative overflow-hidden flex-grow text-left">
+                             Explore Details
+                             <span className="absolute left-0 bottom-0 w-full h-[2px] bg-green-500 -translate-x-[101%] group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+                          </span> 
+                          <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform duration-500 ease-out bg-gray-50 p-1 rounded-full group-hover:bg-green-50 w-8 h-8 flex items-center justify-center flex-shrink-0" />
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  </motion.div>
                 </motion.div>
               ))
             ) : (
-              /* Empty State */
               <motion.div 
-                initial={{ opacity: 0 }} 
-                animate={{ opacity: 1 }} 
-                className="col-span-full py-20 text-center"
+                initial={{ opacity: 0, y: 20 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, scale: 0.9 }}
+                className="col-span-full py-32 text-center bg-white rounded-[3rem] shadow-sm border border-dashed border-gray-200 flex flex-col items-center justify-center"
               >
-                <PackageOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-gray-700 mb-2">No Products Found</h3>
-                <p className="text-gray-500">We couldn't find anything matching your search criteria.</p>
+                <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-6">
+                  <PackageOpen className="w-10 h-10 text-gray-300" />
+                </div>
+                <h3 className="text-3xl font-black text-gray-900 mb-3 font-heading">Nothing found</h3>
+                <p className="text-gray-500 text-lg max-w-md mx-auto">We couldn't find any products matching your current filters or search query.</p>
+                <button 
+                  onClick={() => { setActiveCategory('All'); setSearchQuery(''); }}
+                  className="mt-8 bg-gray-900 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition-colors shadow-lg hover:shadow-green-500/30"
+                >
+                  Clear all filters
+                </button>
               </motion.div>
             )}
           </AnimatePresence>
         </motion.div>
-
       </div>
     </div>
   );
