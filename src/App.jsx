@@ -7,6 +7,7 @@ import Products from './pages/Products';
 import Sustainability from './pages/Sustainability';
 import Blog from './pages/Blog';
 import AdminDashboard from './pages/AdminDashboard';
+import Contact from './pages/Contact';
 // import GlobalPresence from './pages/GlobalPresence';
 
 // 1. Create a Layout component for public pages
@@ -36,6 +37,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/products" element={<Products />} />
           <Route path="/sustainability" element={<Sustainability />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
           {/* <Route path="/global-presence" element={<GlobalPresence />} /> */}
         </Route>

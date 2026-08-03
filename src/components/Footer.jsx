@@ -38,8 +38,8 @@ const Footer = () => {
           {/* Brand Info */}
           <div>
             <Link to="/" className="flex items-center gap-3 mb-6">
-              <Leaf className="h-9 w-9 text-agro-accent" />
-              <span className="text-3xl font-heading font-bold text-white">AgroExport</span>
+              <Leaf className="h-9 w-9  text-green-700" />
+              <span className="text-3xl font-heading font-bold text-white">globalPlanet</span>
             </Link>
             <p className="text-gray-400 mb-6 leading-relaxed">
               Sourcing India's agricultural excellence. Delivering with trust and global standards.
