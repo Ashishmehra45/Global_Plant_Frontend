@@ -100,19 +100,22 @@ const Products = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
         
         {/* 2. Floating Glassmorphism Control Center - Margins Adjusted */}
+       {/* 2. Floating Glassmorphism Control Center (Filters & Search) */}
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5, type: "spring" }}
-          className="bg-white/90 backdrop-blur-2xl rounded-full p-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col lg:flex-row justify-between items-center gap-4 -mt-16 mb-20 max-w-5xl mx-auto relative z-30"
+          // CHANGED: rounded-[2rem] for mobile, lg:rounded-full for desktop. Added w-[95%] to keep it off screen edges.
+          className="bg-white/90 backdrop-blur-2xl rounded-[2rem] lg:rounded-full p-4 lg:p-3 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col lg:flex-row justify-between items-center gap-4 -mt-16 mb-20 max-w-5xl mx-auto relative z-30 w-[95%] lg:w-full"
         >
           {/* iOS Style Category Pills */}
-          <div className="flex overflow-x-auto no-scrollbar w-full lg:w-auto p-1 gap-2">
+          {/* CHANGED: Added Tailwind inline CSS to perfectly hide scrollbars across all browsers */}
+          <div className="flex overflow-x-auto w-full lg:w-auto p-1 gap-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`relative px-6 py-3 rounded-full font-bold text-sm transition-all duration-300 whitespace-nowrap overflow-hidden ${
+                className={`relative px-6 py-3 rounded-full font-bold text-sm transition-all duration-300 whitespace-nowrap overflow-hidden flex-shrink-0 ${
                   activeCategory === cat 
                     ? 'text-white shadow-md' 
                     : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100/50'
@@ -131,7 +134,7 @@ const Products = () => {
           </div>
 
           {/* Premium Search Box */}
-          <div className="relative w-full lg:w-80 flex-shrink-0">
+          <div className="relative w-full lg:w-80 flex-shrink-0 mt-2 lg:mt-0">
             <input 
               type="text" 
               placeholder="Search catalogue..." 
@@ -139,7 +142,7 @@ const Products = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-gray-50/50 hover:bg-gray-100/80 border border-gray-200 text-gray-900 font-medium rounded-full py-3.5 pl-12 pr-6 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all shadow-inner"
             />
-            <Search className="absolute left-4 top-4 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-4 top-3.5 text-gray-400 w-5 h-5" />
           </div>
         </motion.div>
 
