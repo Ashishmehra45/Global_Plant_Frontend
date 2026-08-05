@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Leaf, Globe, Users, TreePine, ShieldCheck, Sprout, Activity, ArrowRight } from 'lucide-react';
+import { Leaf, Users, ShieldCheck, Sprout, ArrowRight, BookOpen, Scale, FileText, CheckCircle2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Sustainability = () => {
   const containerRef = useRef(null);
@@ -20,50 +21,64 @@ const Sustainability = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
   };
 
+  const blogTopics = [
+    "Why Madhya Pradesh Is India's Soybean Heartland",
+    "Understanding Export Grades: What “Singapore” vs. “Europe” Quality Means for Cumin Buyers",
+    "The Journey of a Spice Consignment: From Farm to Port",
+    "India's Spice Export Growth: What It Means for International Buyers",
+    "What Traceability Really Means in Agri-Commodity Exports",
+    "A First-Time Buyer's Guide to Importing Rice from India"
+  ];
+
   return (
     <div ref={containerRef} className="w-full bg-gray-50 min-h-screen pb-32 font-sans selection:bg-emerald-500 selection:text-white relative overflow-hidden">
       
-      {/* Background Ambient Orbs for Nature Feel */}
-      {/* <div className="absolute top-0 left-0 w-full h-[70vh] bg-gradient-to-b from-emerald-50/80 to-transparent pointer-events-none"></div>
-      <div className="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-green-200/20 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute top-80 left-[-10%] w-[500px] h-[500px] bg-teal-200/20 rounded-full blur-[100px] pointer-events-none"></div> */}
-
       {/* 1. Immersive Hero Section */}
-     <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
-  <motion.div 
-    initial={{ scale: 1.1 }}
-    animate={{ scale: 1 }}
-    transition={{ duration: 15, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
-    className="absolute inset-0 bg-cover bg-center"
-    style={{ backgroundImage: "url('https://i.pinimg.com/1200x/86/c8/c3/86c8c39b5897da3652c621c3975164ca.jpg')" }}
-  />
-  <div className="absolute inset-0 bg-gradient-to-b from-gray-950/80 via-emerald-950/60 to-gray-950/90 backdrop-blur-[2px]" />
-  
-  <div className="relative z-10 text-center px-4 max-w-5xl mx-auto flex flex-col items-center">
-    <motion.h1 
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.2 }}
-      className="text-5xl md:text-7xl lg:text-8xl font-black text-white font-heading mb-6 tracking-tight leading-tight"
-    >
-      Growing with <br />
-      <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">Responsibility.</span>
-    </motion.h1>
-    
-    <motion.p 
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.4 }}
-      className="text-lg md:text-2xl text-gray-200 max-w-3xl mx-auto font-light leading-relaxed"
-    >
-      We want to leave the world a better place than we found it. Sustainability is not an afterthought—it is the guiding principle that shapes every shipment, every farm, and every partnership.
-    </motion.p>
-  </div>
-</section>
+      <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        <motion.div 
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 15, ease: "linear", repeat: Infinity, repeatType: "reverse" }}
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('https://i.pinimg.com/1200x/86/c8/c3/86c8c39b5897da3652c621c3975164ca.jpg')" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-950/80 via-emerald-950/60 to-gray-950/90 backdrop-blur-[2px]" />
+        
+        <div className="relative z-10 text-center px-4 max-w-5xl mx-auto flex flex-col items-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: "spring", bounce: 0.5, duration: 1.2 }}
+            className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-2 rounded-full text-white mb-8 border border-white/20 shadow-lg"
+          >
+            <Leaf size={18} className="text-emerald-400 animate-pulse" />
+            <span className="text-xs font-bold tracking-[0.2em] uppercase">Our Approach</span>
+          </motion.div>
+
+          <motion.h1 
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-5xl md:text-7xl lg:text-8xl font-black text-white font-heading mb-6 tracking-tight leading-tight"
+          >
+            Built Into How We <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">Source & Package.</span>
+          </motion.h1>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-lg md:text-2xl text-gray-200 max-w-3xl mx-auto font-light leading-relaxed"
+          >
+            Sustainability is not a separate initiative for us — it is built into how we source, document and package, from day one.
+          </motion.p>
+        </div>
+      </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
         
-        {/* 2. The Sustainability Framework (3D Floating Cards) */}
+        {/* 2. The Four Commitments (3D Floating Grid) */}
         <div className="py-32">
           <div className="text-center max-w-3xl mx-auto mb-20 relative">
             <motion.h2 
@@ -72,17 +87,8 @@ const Sustainability = () => {
               viewport={{ once: true }}
               className="text-4xl md:text-5xl font-black text-gray-900 font-heading mb-6 tracking-tight"
             >
-              Our Sustainability Framework
+              Four Commitments Structure That Work
             </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="text-xl text-gray-600 font-light"
-            >
-              We focus our resources on innovating solutions that preserve natural ecosystems while empowering the communities at the heart of agriculture.
-            </motion.p>
           </div>
 
           <motion.div
@@ -90,13 +96,13 @@ const Sustainability = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 [perspective:1200px]"
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 [perspective:1200px]"
           >
             {[
               {
-                icon: Sprout,
-                title: "Stewarding the Land",
-                desc: "Working to protect natural ecosystems by eliminating deforestation, incentivizing farmers to use degraded land, and supporting regenerative agricultural practices.",
+                icon: Users,
+                title: "Responsible Sourcing & Farmer Partnerships",
+                desc: "We favour long-term, fairly-priced offtake with farmers and processors over one-off spot purchases. It supports consistent supply on our side and steadier livelihoods on theirs.",
                 color: "from-emerald-50 via-green-50 to-emerald-100",
                 textColor: "text-emerald-950",
                 iconColor: "text-emerald-600",
@@ -104,22 +110,31 @@ const Sustainability = () => {
               },
               {
                 icon: ShieldCheck,
-                title: "Responsible Sourcing",
-                desc: "Direct engagement with farmers to ensure fair and transparent procurement. We deploy traceability systems that connect every shipment back to its origin.",
+                title: "Quality, Food Safety & Traceability",
+                desc: "A shipment can be traced back to where it began, because we source directly rather than through intermediaries. Documentation supports that traceability; it doesn't replace it.",
                 color: "from-teal-50 via-cyan-50 to-teal-100",
                 textColor: "text-teal-950",
                 iconColor: "text-teal-600",
                 border: "border-teal-200"
               },
               {
-                icon: Users,
-                title: "Empowering People",
-                desc: "Generating employment in rural areas, offering skill development, and upholding the human and labor rights of the people across our value chains.",
+                icon: Sprout,
+                title: "Environmental Stewardship",
+                desc: "Packaging is chosen to protect product integrity without excess material, and we favour suppliers whose processing reduces post-harvest loss — responsible agriculture and export margin are not in conflict.",
                 color: "from-blue-50 via-indigo-50 to-indigo-100",
                 textColor: "text-indigo-950",
                 iconColor: "text-indigo-600",
                 border: "border-indigo-200"
               },
+              {
+                icon: Scale,
+                title: "Ethical & Transparent Trade",
+                desc: "Price, payment terms and quality are agreed transparently with every farmer, processor and buyer in our network, and held to internationally.",
+                color: "from-rose-50 via-pink-50 to-pink-100",
+                textColor: "text-pink-950",
+                iconColor: "text-pink-600",
+                border: "border-pink-200"
+              }
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -133,7 +148,7 @@ const Sustainability = () => {
                   animate={{ y: [0, -12, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: index * 0.3 }}
                   whileHover={{ scale: 1.03, rotateY: 5, rotateX: 5, transition: { type: "spring", stiffness: 300 } }}
-                  className={`bg-gradient-to-br ${item.color} p-10 rounded-[2.5rem] shadow-lg hover:shadow-2xl border ${item.border} flex flex-col h-full relative overflow-hidden group cursor-pointer transition-shadow duration-500`}
+                  className={`bg-gradient-to-br ${item.color} p-10 lg:p-12 rounded-[2.5rem] shadow-lg hover:shadow-2xl border ${item.border} flex flex-col h-full relative overflow-hidden group cursor-pointer transition-shadow duration-500`}
                 >
                   <div className="absolute inset-0 bg-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
@@ -148,7 +163,7 @@ const Sustainability = () => {
                     <h3 className={`text-2xl font-black font-heading ${item.textColor} mb-4 tracking-tight`} style={{ transform: "translateZ(30px)" }}>
                       {item.title}
                     </h3>
-                    <p className="text-gray-700 leading-relaxed text-base font-medium opacity-90" style={{ transform: "translateZ(20px)" }}>
+                    <p className="text-gray-700 leading-relaxed text-lg font-medium opacity-90" style={{ transform: "translateZ(20px)" }}>
                       {item.desc}
                     </p>
                   </div>
@@ -158,100 +173,78 @@ const Sustainability = () => {
           </motion.div>
         </div>
 
-        {/* 3. Technology & Sustainable Growth (Split Parallax Section) */}
-        <section className="py-24 bg-white rounded-[3rem] shadow-xl border border-gray-100 px-6 sm:px-12 mb-32 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-green-50 rounded-full blur-[80px] -z-10"></div>
-          
-          <div className="grid lg:grid-cols-2 gap-16 items-center relative z-10">
-            <motion.div 
-              variants={staggerContainer}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="space-y-8"
-            >
-              <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-100 px-4 py-2 rounded-full">
-                <Activity size={16} className="text-emerald-600" />
-                <span className="text-xs font-bold tracking-widest uppercase text-emerald-800">Innovation & Traceability</span>
-              </motion.div>
-              
-              <motion.h2 variants={fadeInUp} className="text-4xl md:text-5xl font-black text-gray-900 font-heading leading-[1.1] tracking-tight">
-                Sustainable Growth through <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-500">Technology</span>
-              </motion.h2>
-              
-              <motion.p variants={fadeInUp} className="text-lg text-gray-600 leading-relaxed">
-                Technology helps us collect data, improve transparency, and give farmers the information needed to grow volumes and quality. Our sustainability insights platform provides a single view across the supply chain, ensuring:
-              </motion.p>
-
-              <motion.ul variants={staggerContainer} className="space-y-4">
-                {[
-                  "Investing in green technologies for future expansions.",
-                  "Continuous improvement in waste reduction and resource utilization.",
-                  "Delivering safe, natural, and responsibly made products globally."
-                ].map((point, idx) => (
-                  <motion.li key={idx} variants={fadeInUp} className="flex items-start gap-4">
-                    <div className="mt-1 bg-emerald-100 p-1.5 rounded-full">
-                      <TreePine size={16} className="text-emerald-600" />
-                    </div>
-                    <span className="text-gray-700 font-medium">{point}</span>
-                  </motion.li>
-                ))}
-              </motion.ul>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, rotateY: 15 }}
-              whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, type: "spring", bounce: 0.4 }}
-              className="relative aspect-square md:aspect-[4/3] rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-white group"
-            >
-              <img 
-                src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=2070" 
-                alt="Technology in Agriculture" 
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-in-out"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent opacity-80"></div>
-              
-              <div className="absolute bottom-8 left-8 right-8 bg-white/20 backdrop-blur-xl border border-white/30 p-6 rounded-2xl shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <div className="flex items-center gap-4">
-                  <div className="bg-emerald-500 p-3 rounded-xl">
-                    <Globe className="w-8 h-8 text-white" />
-                  </div>
-                  <div>
-                    <h4 className="text-white font-black text-xl font-heading">Global Impact</h4>
-                    <p className="text-emerald-100 text-sm font-medium">End-to-end metrics & transparency</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* 4. Our Promise (Bold CTA) */}
+        {/* 3. Formalising Commitments Banner */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="bg-gray-950 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl"
+          className="bg-gray-900 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl mb-32"
         >
-          {/* Subtle background texture/gradient */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/40 via-gray-950 to-gray-950 pointer-events-none"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/40 via-gray-900 to-gray-900 pointer-events-none"></div>
           
-          <div className="relative z-10 max-w-4xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-black text-white font-heading mb-8 tracking-tight">
-              Our Promise
-            </h2>
-            <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed mb-10">
-              We grow with responsibility – ensuring our legacy in global agriculture contributes to a sustainable, resilient, and thriving future for people and the planet.
+          <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+            <div className="bg-emerald-500/20 p-4 rounded-full mb-8 border border-emerald-500/30">
+              <CheckCircle2 className="text-emerald-400 w-10 h-10" />
+            </div>
+            <p className="text-2xl md:text-3xl text-white font-heading leading-relaxed font-light">
+              As operations mature, we intend to formalise these commitments into measurable targets and public reporting, in line with what serious international buyers expect from a long-term trade partner.
             </p>
-            <button className="bg-emerald-500 text-white px-10 py-4 rounded-full font-bold hover:bg-emerald-400 transition-colors shadow-[0_0_30px_-5px_rgba(16,185,129,0.5)] hover:shadow-[0_0_40px_-5px_rgba(16,185,129,0.7)] flex items-center gap-3 mx-auto group text-lg">
-              Download 2026 Sustainability Report 
-              <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform" />
-            </button>
           </div>
         </motion.div>
+
+        {/* 4. From the Blog (Search Visibility Content) */}
+        <section className="py-24 bg-white rounded-[3rem] shadow-xl border border-gray-100 px-6 sm:px-12 mb-32 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full blur-[80px] -z-10"></div>
+          
+          <div className="text-center max-w-3xl mx-auto mb-16 relative z-10">
+            <motion.div 
+              variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+              className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-100 px-4 py-2 rounded-full mb-6"
+            >
+              <BookOpen size={16} className="text-emerald-600" />
+              <span className="text-xs font-bold tracking-widest uppercase text-emerald-800">Knowledge Hub</span>
+            </motion.div>
+            
+            <motion.h2 
+              variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+              className="text-4xl md:text-5xl font-black text-gray-900 font-heading mb-6 tracking-tight"
+            >
+              From the Blog
+            </motion.h2>
+            <motion.p 
+              variants={fadeInUp} initial="hidden" whileInView="visible" viewport={{ once: true }}
+              className="text-lg text-gray-600 font-medium"
+            >
+              A recurring content section to build search visibility and buyer trust.
+            </motion.p>
+          </div>
+
+          <motion.div 
+            variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10"
+          >
+            {blogTopics.map((topic, idx) => (
+              <motion.div 
+                key={idx}
+                variants={fadeInUp}
+                whileHover={{ y: -5, scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+                className="bg-gray-50 border border-gray-100 p-8 rounded-3xl hover:shadow-lg transition-all duration-300 group cursor-pointer flex flex-col h-full"
+              >
+                <div className="bg-emerald-100 p-3 rounded-xl w-fit mb-6 group-hover:bg-emerald-500 transition-colors duration-300">
+                  <FileText className="w-6 h-6 text-emerald-600 group-hover:text-white transition-colors duration-300" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 font-heading leading-tight mb-4 group-hover:text-emerald-700 transition-colors">
+                  {topic}
+                </h3>
+                <div className="mt-auto pt-4 flex items-center gap-2 text-emerald-600 font-bold text-sm uppercase tracking-wider">
+                  Read Article <ArrowRight size={16} className="group-hover:translate-x-1.5 transition-transform" />
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
 
       </div>
     </div>

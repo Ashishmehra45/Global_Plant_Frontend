@@ -25,10 +25,10 @@ const Home = () => {
   ];
 
   const complexStatsData = [
-    { icon: Leaf, end: 25, suffix: "+", title: "Years Legacy", desc: "Decades of agricultural mastery and trust.", color: "from-emerald-50 to-teal-100 text-teal-900 border-teal-200", iconColor: "text-teal-600" },
-    { icon: Users, end: 400, suffix: "+", title: "Global Partners", desc: "A massive network of satisfied enterprise clients.", color: "from-amber-50 to-orange-100 text-orange-900 border-orange-200", iconColor: "text-orange-600" },
-    { icon: Globe, end: 50, suffix: "+", title: "Nations Reached", desc: "Exporting premium quality across continents.", color: "from-blue-50 to-indigo-100 text-indigo-900 border-indigo-200", iconColor: "text-indigo-600" },
-    { icon: ShieldCheck, end: 100, suffix: "%", title: "Quality Assured", desc: "Zero compromises on international standards.", color: "from-rose-50 to-pink-100 text-pink-900 border-pink-200", iconColor: "text-pink-600" }
+    { icon: Leaf, end: 15, suffix: "+", title: "Years Experience", desc: "Advised by a trade specialist with 15+ years of international trade and investment advisory experience.", color: "from-emerald-50 to-teal-100 text-teal-900 border-teal-200", iconColor: "text-teal-600" },
+    { icon: Users, end: 100, suffix: "%", title: "Direct Sourcing", desc: "We work directly with farmers and processing units rather than through layers of intermediaries.", color: "from-amber-50 to-orange-100 text-orange-900 border-orange-200", iconColor: "text-orange-600" },
+    { icon: Globe, end: 360, suffix: "°", title: "Global Reach", desc: "We are structured to trade with any market, not a fixed set of regions.", color: "from-blue-50 to-indigo-100 text-indigo-900 border-indigo-200", iconColor: "text-indigo-600" },
+    { icon: ShieldCheck, end: 100, suffix: "%", title: "Grading Control", desc: "Fewer hand-offs mean tighter control over grading and a shorter path from origin to port.", color: "from-rose-50 to-pink-100 text-pink-900 border-pink-200", iconColor: "text-pink-600" }
   ];
 
   // GSAP Smooth Animations
@@ -81,10 +81,10 @@ const Home = () => {
   return (
     <div ref={mainRef} className="w-full bg-white selection:bg-green-500 selection:text-white overflow-hidden">
       
-      {/* 1. Ultra-Premium Hero Section (FIXED OVERLAP BUG) */}
+      {/* 1. Ultra-Premium Hero Section */}
       <section className="relative min-h-screen w-full flex flex-col justify-center items-center overflow-hidden">
         
-        {/* ABSOLUTE BACKGROUND WRAPPER - Ye Swiper ko background mein lock karega */}
+        {/* ABSOLUTE BACKGROUND WRAPPER */}
         <div className="absolute inset-0 w-full h-full z-0">
           <Swiper
             modules={[Autoplay, EffectFade, Pagination]}
@@ -110,7 +110,7 @@ const Home = () => {
           </Swiper>
         </div>
 
-        {/* RELATIVE CONTENT WRAPPER - Text aur buttons yahan safe rahenge */}
+        {/* RELATIVE CONTENT WRAPPER */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-32 pb-48 flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -119,7 +119,7 @@ const Home = () => {
             className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-2 rounded-full text-white mb-8 border border-white/20 shadow-lg"
           >
             <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></span>
-            <span className="text-xs font-bold tracking-[0.2em] uppercase">Global Export Pioneers</span>
+            <span className="text-xs font-bold tracking-[0.2em] uppercase">Global Planet Products Export</span>
           </motion.div>
           
           <motion.h1
@@ -128,9 +128,9 @@ const Home = () => {
             animate="visible"
             className="text-5xl md:text-7xl lg:text-8xl font-black text-white font-heading leading-tight md:leading-[1.05] mb-8 tracking-tight"
           >
-            <motion.span variants={fadeInUp} className="block">Exporting India's</motion.span>
+            <motion.span variants={fadeInUp} className="block">Bringing India's Agricultural</motion.span>
             <motion.span variants={fadeInUp} className="block text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500 pb-2">
-              Finest Yield.
+              Strength to the World
             </motion.span>
           </motion.h1>
           
@@ -138,9 +138,9 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="text-lg md:text-xl text-gray-300 mb-12 max-w-2xl mx-auto font-light leading-relaxed"
+            className="text-lg md:text-xl text-gray-300 mb-12 max-w-3xl mx-auto font-light leading-relaxed"
           >
-            Delivering uncompromised quality in Rice, Spices, and Pulses to the global market. Sustainable, pure, and strictly standardized.
+            An export partner for spices, rice, soy products and oilseeds, built on direct relationships with farmers and processors, and advised by a trade specialist with 15+ years of international trade experience.
           </motion.p>
           
           <motion.div
@@ -149,11 +149,11 @@ const Home = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto justify-center"
           >
-            <Link to="/products" className="bg-green-600 text-white px-8 py-4 rounded-full font-bold hover:bg-green-500 transition-all flex items-center justify-center gap-3 shadow-[0_0_30px_-5px_rgba(22,163,74,0.4)] hover:shadow-[0_0_40px_-5px_rgba(22,163,74,0.6)] hover:-translate-y-1 w-full sm:w-auto text-lg">
-              Explore Catalogue <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform duration-300" />
+            <Link to="/contact" className="bg-green-600 text-white px-8 py-4 rounded-full font-bold hover:bg-green-500 transition-all flex items-center justify-center gap-3 shadow-[0_0_30px_-5px_rgba(22,163,74,0.4)] hover:shadow-[0_0_40px_-5px_rgba(22,163,74,0.6)] hover:-translate-y-1 w-full sm:w-auto text-lg">
+              Request a Quotation <ArrowRight size={20} className="group-hover:translate-x-1.5 transition-transform duration-300" />
             </Link>
-            <Link to="/contact" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-full font-bold hover:bg-white hover:text-gray-900 transition-all flex items-center justify-center hover:-translate-y-1 w-full sm:w-auto text-lg">
-              Contact Us
+            <Link to="/products" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-full font-bold hover:bg-white hover:text-gray-900 transition-all flex items-center justify-center hover:-translate-y-1 w-full sm:w-auto text-lg">
+              Download Product Catalogue
             </Link>
           </motion.div>
         </div>
@@ -213,9 +213,9 @@ const Home = () => {
             viewport={{ once: true, margin: "-100px" }}
           >
             {[
-              { title: "Premium Basmati", img: "https://plus.unsplash.com/premium_photo-1723726831918-9a8542e705cb?q=80&w=1089&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", span: "md:col-span-2 md:row-span-2" },
-              { title: "Exotic Spices", img: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=2070", span: "md:col-span-1 md:row-span-1" },
-              { title: "Pulses & Grains", img: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?q=80&w=2089", span: "md:col-span-1 md:row-span-1" }
+              { title: "Rice (Basmati & Non-Basmati)", img: "https://plus.unsplash.com/premium_photo-1723726831918-9a8542e705cb?q=80&w=1089&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", span: "md:col-span-2 md:row-span-2" },
+              { title: "Spices", img: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=2070", span: "md:col-span-1 md:row-span-1" },
+              { title: "Soy Products & Oilseeds", img: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?q=80&w=2089", span: "md:col-span-1 md:row-span-1" }
             ].map((prod, idx) => (
               <motion.div
                 key={idx}
@@ -245,19 +245,19 @@ const Home = () => {
             >
                 <div className="w-16 h-1.5 bg-green-500 mb-8 rounded-full"></div>
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 mb-6 font-heading leading-[1.1] tracking-tight">
-                  Architecting Global <br/> <span className="text-green-600">Supply Chains</span>
+                  Direct From <br/> <span className="text-green-600">Origin</span>
                 </h2>
                 <p className="text-lg text-gray-600 mb-10 leading-relaxed">
-                  From the heartland of Indian farms to international ports, our infrastructure ensures zero loss in nutritional value, absolute purity, and on-time global delivery.
+                  Global Planet Products Export Private Limited is an Indore-based export house connecting India's farms and processing units with buyers around the world. We work directly with farmers and processing units, keeping the path from origin to destination short and transparent.
                 </p>
-                <Link to="/quality" className="group bg-gray-900 text-white px-8 py-4 rounded-full font-bold hover:bg-green-600 transition-colors inline-flex items-center gap-3 shadow-lg">
-                    Discover Our Process <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform duration-300" />
+                <Link to="/contact" className="group bg-gray-900 text-white px-8 py-4 rounded-full font-bold hover:bg-green-600 transition-colors inline-flex items-center gap-3 shadow-lg">
+                    Get in Touch <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform duration-300" />
                 </Link>
             </motion.div>
 
             <div className="parallax-container relative aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl">
                  <img 
-                    src="https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=1200&auto=format&fit=crop](https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=1200&auto=format&fit=crop" 
+                    src="https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=1200&auto=format&fit=crop" 
                     className="parallax-img w-full h-[115%] object-cover absolute top-[-7.5%]" 
                     alt="Agriculture Infrastructure" 
                  />
