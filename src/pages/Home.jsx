@@ -20,8 +20,10 @@ const Home = () => {
   const mainRef = useRef(null);
 
   const heroSlides = [
-    { image: 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=2070' },
-    { image: 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?q=80&w=2089' },
+    { image: 'https://i.pinimg.com/1200x/5d/f3/81/5df381cd882a465fafe1ac26be26334c.jpg' },
+    { image: 'https://i.pinimg.com/1200x/42/8c/8e/428c8e06eb83089233a34167ac72a0e8.jpg' },
+    { image: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=2070' },
+    { image: 'https://i.pinimg.com/1200x/1d/13/40/1d134006841514ae8fe3cf0ac11f66c5.jpg' },
   ];
 
   const complexStatsData = [
@@ -89,7 +91,7 @@ const Home = () => {
           <Swiper
             modules={[Autoplay, EffectFade, Pagination]}
             effect="fade"
-            speed={1500}
+            speed={1000}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
             pagination={{ clickable: true, dynamicBullets: true }}
             className="h-full w-full"
@@ -101,7 +103,7 @@ const Home = () => {
                   style={{ backgroundImage: `url(${slide.image})` }}
                   initial={{ scale: 1.1 }}
                   animate={{ scale: 1 }}
-                  transition={{ duration: 10, ease: "linear" }}
+                  transition={{ duration: 1, ease: "linear" }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-b from-gray-950/80 via-gray-950/60 to-gray-950/90" />
                 </motion.div>
