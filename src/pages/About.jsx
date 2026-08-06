@@ -424,11 +424,9 @@ const About = () => {
       </section>
 
       {/* 6. Sustainability Briefing */}
-      <section className="py-24 bg-gray-900 relative overflow-hidden rounded-t-[3rem] mx-2 sm:mx-4 shadow-[0_-20px_50px_-15px_rgba(0,0,0,0.05)]">
+      <section className="py-24 bg-[#f6f6f6] relative overflow-hidden rounded-t-[3rem] mx-2 sm:mx-4 ">
         {/* Dark theme for sustainability to make it pop at the end */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/10 rounded-full blur-[80px] pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-teal-500/10 rounded-full blur-[80px] pointer-events-none"></div>
-
+      ?
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
@@ -445,7 +443,7 @@ const About = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-black text-white font-heading mb-6 tracking-tight"
+            className="text-4xl md:text-5xl font-black text-black font-heading mb-6 tracking-tight"
           >
             Sustainability, in Brief
           </motion.h2>
@@ -455,7 +453,7 @@ const About = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto mb-10 font-light"
+            className="text-xl text-black leading-relaxed max-w-3xl mx-auto mb-10 font-light"
           >
             Responsible sourcing and long-term relationships with the farmers
             and processors we work with sit at the centre of how we operate.

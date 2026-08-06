@@ -8,6 +8,7 @@ import Sustainability from './pages/Sustainability';
 import Blog from './pages/Blog';
 import AdminDashboard from './pages/AdminDashboard';
 import Contact from './pages/Contact';
+import Certifications from './pages/Certification'; // Import the Certifications component
 // import GlobalPresence from './pages/GlobalPresence';
 
 // 1. Create a Layout component for public pages
@@ -39,6 +40,7 @@ function App() {
           <Route path="/sustainability" element={<Sustainability />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/certifications" element={<Certifications />} />
           {/* <Route path="/global-presence" element={<GlobalPresence />} /> */}
         </Route>
       </Routes>

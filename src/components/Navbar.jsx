@@ -25,6 +25,7 @@ const Navbar = () => {
     { name: "Products", path: "/products" },
     { name: "Blog", path: "/blog" },
     { name: "Sustainability", path: "/sustainability" },
+    { name: "Certifications", path: "/certifications" },
     // { name: 'Global Presence', path: '/global-presence' },
   ];
 
