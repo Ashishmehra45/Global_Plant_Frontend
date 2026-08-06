@@ -119,9 +119,7 @@ const Contact = () => {
               </h3>
               <p className="text-gray-500 font-medium leading-relaxed">
                 Global Planet Products Export Private Limited
-                <br />
-                10/18 Yeshwant Niwas Road, Ankur Hospital Ke Paas,
-                <br />
+               
                 Indore, Madhya Pradesh 452003, India
               </p>
             </motion.div>
@@ -129,10 +127,10 @@ const Contact = () => {
             {/* Email & Phone Card */}
             <motion.div
               variants={fadeInUp}
-              className="bg-white rounded-[2rem] p-8 shadow-lg border border-gray-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+              className="bg-white rounded-[2rem] p-6 shadow-lg border border-gray-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
             >
-              <div className="flex gap-6 mb-6">
-                <div className="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center group-hover:bg-teal-500 transition-colors shrink-0">
+              <div className="flex gap-6 mb-2 ">
+                <div className="w-14 h-14 bg-teal-50 rounded-xl flex items-center justify-center group-hover:bg-teal-500 transition-colors shrink-0">
                   <Mail
                     className="text-teal-600 group-hover:text-white transition-colors"
                     size={24}
@@ -146,7 +144,7 @@ const Contact = () => {
                     href="mailto:[Insert company email]"
                     className="text-gray-500 font-medium hover:text-teal-600 transition-colors break-all"
                   >
-                    [Insert company email]
+                   info@globalPlanet.com
                   </a>
                 </div>
               </div>
@@ -166,19 +164,12 @@ const Contact = () => {
                     href="tel:[Insert company phone number]"
                     className="text-gray-500 font-medium hover:text-emerald-600 transition-colors"
                   >
-                    [Insert company phone number]
+                    +91 98765 43210
                   </a>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-gray-100">
-                <p className="text-sm text-gray-500 font-bold uppercase tracking-wider">
-                  Business Hours:
-                </p>
-                <p className="text-gray-700 font-medium mt-1">
-                  [Insert business hours]
-                </p>
-              </div>
+             
             </motion.div>
 
             {/* Google Map Embed */}

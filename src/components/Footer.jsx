@@ -58,7 +58,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li><Link to="/about" className="hover:text-agro-accent transition-colors">About Us</Link></li>
               <li><Link to="/products" className="hover:text-agro-accent transition-colors">Products</Link></li>
-              <li><Link to="/quality" className="hover:text-agro-accent transition-colors">Quality Assurance</Link></li>
+              <li><Link to="/certifications" className="hover:text-agro-accent transition-colors">Certifications</Link></li>
               <li><Link to="/sustainability" className="hover:text-agro-accent transition-colors">Sustainability</Link></li>
             </ul>
           </div>
@@ -88,7 +88,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="text-agro-accent flex-shrink-0" size={20} />
-                <span className="text-gray-400 text-sm">info@agroexport.com</span>
+                <span className="text-gray-400 text-sm">info@globalPlanet.com</span>
               </li>
             </ul>
           </div>
