@@ -9,6 +9,7 @@ import Blog from './pages/Blog';
 import AdminDashboard from './pages/AdminDashboard';
 import Contact from './pages/Contact';
 import Certifications from './pages/Certification'; // Import the Certifications component
+import ScrollToTop from './components/ScrollToTop';
 // import GlobalPresence from './pages/GlobalPresence';
 
 // 1. Create a Layout component for public pages
@@ -28,6 +29,7 @@ const PublicLayout = () => {
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* 2. Admin Route (WITHOUT Navbar and Footer) */}
         <Route path="/admin" element={<AdminDashboard />} />
