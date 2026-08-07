@@ -10,6 +10,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import Contact from './pages/Contact';
 import Certifications from './pages/Certification'; // Import the Certifications component
 import ScrollToTop from './components/ScrollToTop';
+import ProductDetails from './pages/ProductDetail'; // Import the ProductDetails component
 // import GlobalPresence from './pages/GlobalPresence';
 
 // 1. Create a Layout component for public pages
@@ -43,6 +44,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/certifications" element={<Certifications />} />
+          <Route path="/product/:id" element={<ProductDetails />} /> {/* Dynamic route for product details */}
           {/* <Route path="/global-presence" element={<GlobalPresence />} /> */}
         </Route>
       </Routes>
