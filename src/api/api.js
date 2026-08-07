@@ -6,7 +6,7 @@ const isDevelopment = import.meta.env.MODE === 'development';
 // Yahan apne hisaab se URLs set kar lo
 const API_BASE_URL = isDevelopment 
   ? 'http://localhost:5000/api'        // LOCAL API URL (Node.js/Express jo bhi chal raha ho)
-  : 'https://api.globalplanet.com/api'; // PRODUCTION API URL (Live server link)
+  : 'https://golbal-planet-backend.onrender.com'; // PRODUCTION API URL (Live server link)
 
 // Axios ka instance create kar rahe hain
 const api = axios.create({
