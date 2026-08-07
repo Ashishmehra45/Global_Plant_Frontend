@@ -181,7 +181,7 @@ const ProductDetail = () => {
                       className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors disabled:opacity-70 shadow-lg shadow-green-500/30"
                     >
                       {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send size={18} />}
-                      {isSubmitting ? 'Sending Request...' : 'Submit Request'}
+                      {isSubmitting ? 'Sending Request...' : 'Submit'}
                     </button>
                   </form>
                 </>
