@@ -27,7 +27,6 @@ const ProductDetail = () => {
     const fetchProductDetails = async () => {
       try {
         const response = await api.get(`/products/${id}`); 
-        // Note: Backend me aapko router.get('/:id', getProductById) banana hoga
         setProduct(response.data);
       } catch (error) {
         console.error("Error fetching product:", error);
@@ -43,24 +42,28 @@ const ProductDetail = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // CORRECTED: Ab sirf ek hi baar handleQuerySubmit hai
   const handleQuerySubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      // Backend ko query bhejo (Sath me product ka naam bhi attach kar diya)
+      // Backend ko query bhejo (Sath me product ka naam, category aur ID attach kar di)
       const queryPayload = {
         ...formData,
         productName: product.name,
+        productCategory: product.category, // Backend schema ke hisaab se
         productId: product._id
       };
       
-      await api.post('/queries', queryPayload); // API to save query
+      // API call to save query
+      await api.post('/products/createQuery', queryPayload); 
       
       setIsSubmitted(true);
       toast.success("Query sent successfully! We will contact you soon.");
       
     } catch (error) {
+      console.error("Query Error:", error);
       toast.error("Failed to send query. Please try again.");
     } finally {
       setIsSubmitting(false);

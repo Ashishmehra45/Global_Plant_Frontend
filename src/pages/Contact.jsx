@@ -9,9 +9,15 @@ import {
   MessageSquare,
   Building2,
   Map,
+  Loader2 // <-- Loader2 yahan add kiya hai
 } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast"; // <-- Toast import karna zaroori hai
+import api from "../api/api"; 
 
 const Contact = () => {
+  // 👇 YAHAN ISSUBMITTING ADD KIYA HAI 👇
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const [formData, setFormData] = useState({
     name: "",
     company: "",
@@ -21,19 +27,34 @@ const Contact = () => {
     message: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Yahan API integrate hogi
-    console.log("Form Submitted: ", formData);
-    alert("Thank you! Your query has been submitted successfully.");
-    setFormData({
-      name: "",
-      company: "",
-      country: "",
-      product: "Spices",
-      quantity: "",
-      message: "",
-    });
+    setIsSubmitting(true);
+    const loadingToast = toast.loading("Sending your message...");
+
+    try {
+      // Backend api ko hit karo
+      await api.post("/products/contact/submit", formData);
+
+      toast.dismiss(loadingToast);
+      toast.success("Thank you! Your query has been submitted successfully.");
+
+      // Form reset
+      setFormData({
+        name: "",
+        company: "",
+        country: "",
+        product: "Spices",
+        quantity: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error("Form Submit Error:", error);
+      toast.dismiss(loadingToast);
+      toast.error("Failed to submit. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Animation Variants
@@ -54,6 +75,7 @@ const Contact = () => {
   return (
     <div className="w-full bg-[#f8fafc] min-h-screen pb-32 font-sans selection:bg-green-500 selection:text-white relative overflow-hidden">
       {/* Background Ambient Orbs */}
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="absolute top-0 left-0 w-full h-[60vh] bg-gradient-to-b from-green-50/50 to-transparent pointer-events-none"></div>
       <div className="absolute top-40 right-[-10%] w-[500px] h-[500px] bg-teal-200/20 rounded-full blur-[120px] pointer-events-none"></div>
 
@@ -118,9 +140,8 @@ const Contact = () => {
                 Registered Office
               </h3>
               <p className="text-gray-500 font-medium leading-relaxed">
-                Global Planet Products Export Private Limited
-               
-                Indore, Madhya Pradesh 452003, India
+                Global Planet Products Export Private Limited Indore, Madhya
+                Pradesh 452003, India
               </p>
             </motion.div>
 
@@ -144,7 +165,7 @@ const Contact = () => {
                     href="mailto:[Insert company email]"
                     className="text-gray-500 font-medium hover:text-teal-600 transition-colors break-all"
                   >
-                   info@globalPlanet.com
+                    info@globalPlanet.com
                   </a>
                 </div>
               </div>
@@ -168,22 +189,20 @@ const Contact = () => {
                   </a>
                 </div>
               </div>
-
-             
             </motion.div>
 
             {/* Google Map Embed */}
-           <motion.div 
-              variants={fadeInUp} 
+            <motion.div
+              variants={fadeInUp}
               className="bg-white rounded-[2rem] p-4 shadow-lg border border-gray-100 h-64 relative overflow-hidden"
             >
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117763.55657335967!2d75.79380962383827!3d22.72411032333796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fcad1b410ddb%3A0x96ec4da356240f4!2sIndore%2C%20Madhya%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0, borderRadius: '1.5rem' }} 
-                allowFullScreen="" 
-                loading="lazy" 
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117763.55657335967!2d75.79380962383827!3d22.72411032333796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fcad1b410ddb%3A0x96ec4da356240f4!2sIndore%2C%20Madhya%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style={{ border: 0, borderRadius: "1.5rem" }}
+                allowFullScreen=""
+                loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </motion.div>
@@ -320,16 +339,22 @@ const Contact = () => {
                   ></textarea>
                 </div>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full bg-gray-900 text-white px-10 py-4 rounded-xl font-bold hover:bg-green-600 transition-all duration-300 shadow-xl hover:shadow-green-500/30 flex items-center justify-center gap-3 group"
+                  disabled={isSubmitting}
+                  className="w-full bg-gray-900 text-white px-10 py-4 rounded-xl font-bold hover:bg-green-600 transition-all duration-300 shadow-xl hover:shadow-green-500/30 flex items-center justify-center gap-3 group disabled:opacity-70"
                 >
-                  Submit Enquiry
-                  <Send
-                    size={18}
-                    className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
-                  />
+                  {isSubmitting ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    "Submit Enquiry"
+                  )}
+                  {!isSubmitting && (
+                    <Send
+                      size={18}
+                      className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                    />
+                  )}
                 </button>
               </form>
             </div>
