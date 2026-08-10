@@ -51,17 +51,7 @@ const Certifications = () => {
       border: "border-teal-200",
       shadow: "hover:shadow-teal-500/20"
     },
-    {
-      icon: Award,
-      title: "Quality Management",
-      content: "Global Planet Products Export Private Limited is working toward ISO 9001:2015 Quality Management System certification, reflecting our commitment to consistent process discipline across sourcing, quality verification and dispatch.",
-      // note: "Do not state ISO 9001:2015 as an achieved certification unless a valid certificate and certification body are confirmed — the copy above intentionally frames it as a commitment in progress. Replace with the certificate number once issued.",
-      isProgress: true,
-      color: "text-indigo-600",
-      bg: "bg-indigo-50",
-      border: "border-indigo-200",
-      shadow: "hover:shadow-indigo-500/20"
-    }
+   
   ];
 
   useGSAP(() => {
