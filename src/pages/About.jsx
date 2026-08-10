@@ -138,7 +138,7 @@ const About = () => {
             transition={{ type: "spring", bounce: 0.5, duration: 1.2 }}
             className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-2 rounded-full text-white mb-8 border border-white/20 shadow-lg"
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></span>
+           
             <span className="text-xs font-bold tracking-[0.2em] uppercase">
               About Our Company
             </span>

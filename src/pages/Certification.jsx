@@ -145,7 +145,7 @@ const Certifications = () => {
             initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-sm mb-6"
           >
-            <Shield className="w-4 h-4 text-blue-400" />
+            {/* <Shield className="w-4 h-4 text-blue-400" /> */}
             <span className="text-xs font-bold tracking-widest uppercase text-white">Verified Standards</span>
           </motion.div>
           
@@ -154,7 +154,7 @@ const Certifications = () => {
             className="text-6xl md:text-8xl font-black text-white font-heading mb-6 tracking-tighter leading-[0.9]"
           >
             Global <br className="hidden md:block"/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-300">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-300">
               Compliance
             </span>
           </motion.h1>
