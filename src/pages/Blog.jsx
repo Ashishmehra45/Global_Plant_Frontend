@@ -15,7 +15,7 @@ const blogPosts = [
     readTime: "6 min read",
     author: "Ravi K. Tiwari",
     authorRole: "Export Analyst",
-    image: "https://images.unsplash.com/photo-1586201375761-83865001e8ac?q=80&w=2070",
+    image: "https://i.pinimg.com/1200x/3b/f9/69/3bf96918afed8aae47ec10c7099a3470.jpg",
     featured: true,
   },
   {
@@ -27,7 +27,7 @@ const blogPosts = [
     readTime: "4 min read",
     author: "Ananya Sharma",
     authorRole: "Agronomy Specialist",
-    image: "https://images.unsplash.com/photo-1500937386664-56d1dfefcb0c?q=80&w=2070",
+    image: "https://i.pinimg.com/1200x/05/8a/1f/058a1fc435bdfcc83d1a32fed01c572c.jpg",
     featured: false,
   },
   {
@@ -189,9 +189,7 @@ const Blog = () => {
                   alt={featuredPost.title} 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute top-4 left-4 bg-gray-950/80 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase flex items-center gap-2">
-                  <Sparkles size={14} className="text-green-400" /> Featured Highlight
-                </div>
+                
               </div>
 
               <div className="lg:col-span-5 flex flex-col justify-between h-full py-2">
@@ -288,7 +286,7 @@ const Blog = () => {
                         </div>
 
                         <span className="text-xs font-bold uppercase tracking-widest text-green-600 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                          Read More <ArrowRight size={14} />
+                         
                         </span>
                       </div>
                     </div>
