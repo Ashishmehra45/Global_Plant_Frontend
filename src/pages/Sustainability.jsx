@@ -173,25 +173,7 @@ const Sustainability = () => {
           </motion.div>
         </div>
 
-        {/* 3. Formalising Commitments Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="bg-gray-900 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl mb-32"
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/40 via-gray-900 to-gray-900 pointer-events-none"></div>
-          
-          <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
-            <div className="bg-emerald-500/20 p-4 rounded-full mb-8 border border-emerald-500/30">
-              <CheckCircle2 className="text-emerald-400 w-10 h-10" />
-            </div>
-            <p className="text-2xl md:text-3xl text-white font-heading leading-relaxed font-light">
-              As operations mature, we intend to formalise these commitments into measurable targets and public reporting, in line with what serious international buyers expect from a long-term trade partner.
-            </p>
-          </div>
-        </motion.div>
+       
 
         {/* 4. From the Blog (Search Visibility Content) */}
         <section className="py-24 bg-white rounded-[3rem] shadow-xl border border-gray-100 px-6 sm:px-12 mb-32 relative overflow-hidden">

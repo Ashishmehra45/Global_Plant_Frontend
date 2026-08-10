@@ -81,38 +81,32 @@ const About = () => {
 
   const leadershipTeam = [
     {
-      name: "Krishan Pratap Singh Rajput",
-      role: "Founder & Director",
-      bio: "Leads the company's sourcing, supplier onboarding and export operations, with a focus on building a compliance-first trading house from the ground up.",
-      img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop",
-      isComplete: true,
-    },
-    {
       name: "Ravi K. Tiwari",
       role: "Strategic Advisor, Trade & Investment",
       bio: "Advises on international market entry and trade strategy. Brings over 15 years of experience advising governments and companies, including ProMéxico India and Government of Ontario. CEO of MIBC and IM Global.",
-      img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop",
+      img: "leadership/ravi_sir_img-Picsart-AiImageEnhancer.png",
       isComplete: true,
     },
+    {
+      name: "Krishan Pratap Singh Rajput",
+      role: "Founder & Director",
+      bio: "Leads the company's sourcing, supplier onboarding and export operations, with a focus on building a compliance-first trading house from the ground up.",
+      img: "public/leadership/krishan.jpg",
+      isComplete: true,
+    },
+
     {
       name: "Nilesh Agrawal",
       role: "Leadership Team",
       bio: "Detailed professional background and role specifics are currently being updated.",
-      img: null,
+      img:  "public/leadership/harsh_Agrawal-.jpg",
       isComplete: false,
     },
     {
-      name: "Meghna Goyal",
+      name: "Harsh Agrawal",
       role: "Leadership Team",
       bio: "Detailed professional background and role specifics are currently being updated.",
-      img: null,
-      isComplete: false,
-    },
-    {
-      name: "Chandrakant Tiwari",
-      role: "Leadership Team",
-      bio: "Detailed professional background and role specifics are currently being updated.",
-      img: null,
+      img: "public/leadership/harsh_Agrawal-.jpg",
       isComplete: false,
     },
   ];
@@ -205,7 +199,7 @@ const About = () => {
               whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl group"
+              className="relative aspect-[5/5] rounded-[2rem] overflow-hidden shadow-2xl group"
             >
               <img
                 src="https://i.pinimg.com/1200x/06/59/09/065909271e627bbfe05b71d8ae75b877.jpg"
@@ -355,24 +349,24 @@ const About = () => {
             </h2>
           </motion.div>
 
-          {/* 6-Column Grid Magic for 2-Top, 3-Bottom Layout */}
           <motion.div
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
-            className="grid grid-cols-1 md:grid-cols-6 gap-8 max-w-6xl mx-auto"
+            // CHANGED: Yahan grid-cols-6 hata kar direct grid-cols-2 kar diya hai for perfect 2x2 layout
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto"
           >
             {leadershipTeam.map((member, idx) => (
               <motion.div
                 key={idx}
                 variants={fadeInUp}
-                // Agar index 0,1 (Top 2) hain toh 3 columns lo, baaki (Bottom 3) hain toh 2 columns lo
+                // CHANGED: col-span wala complex logic hata diya, ab har card naturally 1 column lega
                 className={`relative group bg-white rounded-[2.5rem] p-8 border border-gray-100 shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col h-full ${
                   !member.isComplete
                     ? "bg-gray-50/80 border-dashed border-gray-200"
                     : ""
-                } ${idx < 2 ? "md:col-span-3" : "md:col-span-2"}`}
+                }`}
               >
                 {/* 3D Float Effect on Hover */}
                 <motion.div
@@ -382,7 +376,7 @@ const About = () => {
                 >
                   <div className="relative mb-6">
                     {member.img ? (
-                      <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-green-50 shadow-lg group-hover:border-green-100 transition-colors">
+                      <div className="w-46 h-46 rounded-full overflow-hidden border-4 border-green-50 shadow-lg group-hover:border-green-100 transition-colors">
                         <img
                           src={member.img}
                           alt={member.name}
@@ -408,10 +402,18 @@ const About = () => {
                   </p>
 
                   <div
-                    className={`mt-auto pt-6 border-t w-full ${member.isComplete ? "border-gray-100" : "border-gray-200 border-dashed"}`}
+                    className={`mt-auto pt-2 border-t w-full ${
+                      member.isComplete
+                        ? "border-gray-100"
+                        : "border-gray-200 "
+                    }`}
                   >
                     <p
-                      className={`text-base leading-relaxed ${member.isComplete ? "text-gray-600 font-medium" : "text-gray-400 italic"}`}
+                      className={`text-base leading-relaxed ${
+                        member.isComplete
+                          ? "text-gray-600 font-medium"
+                          : "text-gray-600 "
+                      }`}
                     >
                       {member.bio}
                     </p>
@@ -425,8 +427,7 @@ const About = () => {
 
       {/* 6. Sustainability Briefing */}
       <section className="py-24 bg-[#f6f6f6] relative overflow-hidden rounded-t-[3rem] mx-2 sm:mx-4 ">
-        {/* Dark theme for sustainability to make it pop at the end */}
-      ?
+        {/* Dark theme for sustainability to make it pop at the end */}?
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
