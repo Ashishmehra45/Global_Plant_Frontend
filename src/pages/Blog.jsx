@@ -90,22 +90,18 @@ const Blog = () => {
       <div className="absolute top-20 left-[-10%] w-[400px] h-[400px] bg-green-200/20 rounded-full blur-[100px] pointer-events-none"></div>
 
       {/* 1. Hero Section */}
-      <section className="relative min-h-[50vh] py-24 flex items-center justify-center overflow-hidden rounded-b-[3rem] mx-2 sm:mx-4 mt-4 shadow-2xl bg-gray-950">
+     <section className="relative min-h-[80vh] py-24 flex items-center justify-center overflow-hidden rounded-b-[3rem] mx-2 sm:mx-4 mt-4 shadow-2xl bg-gray-950">
+        
+        {/* Yahan se mix-blend-overlay aur opacity-40 hata diya hai aur z-0 laga diya hai */}
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1500937386664-56d1dfefcb0c?q=80&w=2070')" }}
+          className="absolute inset-0 bg-cover bg-center z-0"
+          style={{ backgroundImage: "url('https://i.pinimg.com/1200x/76/ba/9d/76ba9d7f368379e839faa110653a0c2c.jpg')" }}
         />
+        
+        {/* Ye dark overlay image ke upar rahega taaki white text clear dikhe */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/90 z-10" />
         
         <div className="relative z-20 text-center px-4 max-w-4xl mx-auto flex flex-col items-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: "spring", bounce: 0.5, duration: 1.2 }}
-            className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 border border-white/20 shadow-lg"
-          >
-            <BookOpen className="w-8 h-8 text-green-400" />
-          </motion.div>
           
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
@@ -303,34 +299,7 @@ const Blog = () => {
           </AnimatePresence>
         </motion.div>
 
-        {/* 5. Newsletter Subscription CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-28 bg-gradient-to-r from-gray-950 via-teal-950 to-gray-950 rounded-[3rem] p-10 md:p-16 text-center text-white relative overflow-hidden shadow-2xl"
-        >
-          <div className="relative z-10 max-w-3xl mx-auto">
-            <span className="text-xs font-bold tracking-[0.2em] text-green-400 uppercase mb-4 block">Stay Ahead Of The Market</span>
-            <h2 className="text-4xl md:text-5xl font-black font-heading mb-6 tracking-tight">
-              Subscribe to Commodity Intelligence
-            </h2>
-            <p className="text-gray-300 font-light text-lg mb-10">
-              Get monthly export reports, freight trend updates, and crop yield forecasts directly in your inbox.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input 
-                type="email" 
-                placeholder="Enter your corporate email..." 
-                className="bg-white/10 border border-white/20 text-white placeholder-gray-400 rounded-full px-6 py-4 flex-grow focus:outline-none focus:ring-2 focus:ring-green-400 backdrop-blur-md"
-              />
-              <button className="bg-green-500 text-gray-950 px-8 py-4 rounded-full font-bold hover:bg-green-400 transition-all shadow-lg hover:shadow-green-500/50 flex-shrink-0">
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </motion.div>
+        
 
       </div>
     </div>
