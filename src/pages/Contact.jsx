@@ -82,14 +82,7 @@ const Contact = () => {
       {/* 1. Immersive Hero Banner */}
       <section className="relative min-h-[50vh] py-24 flex items-center justify-center overflow-hidden rounded-b-[3rem] mx-2 sm:mx-4 mt-4 ">
         <div className="relative z-20 text-center px-4 max-w-4xl mx-auto flex flex-col items-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: "spring", bounce: 0.5, duration: 1.2 }}
-            className="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 border border-white/20 shadow-lg"
-          >
-            <Globe className="w-8 h-8 text-green-400" />
-          </motion.div>
+         
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
