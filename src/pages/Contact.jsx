@@ -9,15 +9,15 @@ import {
   MessageSquare,
   Building2,
   Map,
-  Loader2 // <-- Loader2 yahan add kiya hai
+  Loader2, // <-- Loader2 yahan add kiya hai
 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast"; // <-- Toast import karna zaroori hai
-import api from "../api/api"; 
+import api from "../api/api";
 
 const Contact = () => {
   // 👇 YAHAN ISSUBMITTING ADD KIYA HAI 👇
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     name: "",
     company: "",
@@ -137,11 +137,10 @@ const Contact = () => {
                 />
               </div>
               <h3 className="text-xl font-black text-gray-900 mb-3">
-                Registered Office
+                Registered Office Address
               </h3>
               <p className="text-gray-500 font-medium leading-relaxed">
-                Global Planet Products Export Private Limited Indore, Madhya
-                Pradesh 452003, India
+                10/18, Yeshwant Niwas Road, Near Ankur Hospital, Indore, Madhya Pradesh, 452003
               </p>
             </motion.div>
 
@@ -185,7 +184,7 @@ const Contact = () => {
                     href="tel:[Insert company phone number]"
                     className="text-gray-500 font-medium hover:text-emerald-600 transition-colors"
                   >
-                    +91 98765 43210
+                    +91 7987360432
                   </a>
                 </div>
               </div>
@@ -197,13 +196,13 @@ const Contact = () => {
               className="bg-white rounded-[2rem] p-4 shadow-lg border border-gray-100 h-64 relative overflow-hidden"
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117763.55657335967!2d75.79380962383827!3d22.72411032333796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fcad1b410ddb%3A0x96ec4da356240f4!2sIndore%2C%20Madhya%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10083.620104335405!2d75.87089242426089!3d22.73006962924902!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fd699a2f8253%3A0x24361c32b92f9f90!2s10%2C%20Yeshwant%20Niwas%20Rd%2C%20opposite%20Chandragupta%20Talkies%2C%20Near%20Ankur%20Hospital%2C%20Maan%20Sarovar%2C%20Indore%2C%20Madhya%20Pradesh%20452003!5e1!3m2!1sen!2sin!4v1786363618714!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0, borderRadius: "1.5rem" }}
                 allowFullScreen=""
                 loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
+                referrerPolicy="strict-origin-when-cross-origin"
               ></iframe>
             </motion.div>
           </motion.div>
