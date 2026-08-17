@@ -113,82 +113,78 @@ const AdminDashboard = () => {
     try {
       setIsLoading(true);
 
-      setTimeout(() => {
-        setQueries(initialQueries);
+      const response = await api.get("/products/product/inquiries");
 
-        toast.dismiss(loadingToast);
-        toast.success("Queries loaded successfully! 📩");
+      setQueries(response.data);
 
-        setIsLoading(false);
-      }, 1000);
+      toast.dismiss(loadingToast);
+      toast.success("Queries loaded successfully! 📩");
     } catch (error) {
       console.error("Error fetching queries:", error);
 
       toast.dismiss(loadingToast);
       toast.error(error.response?.data?.message || "Failed to fetch queries!");
-
+    } finally {
       setIsLoading(false);
     }
   };
 
   // --- FORM SUBMIT HANDLER ---
   const handleAddProduct = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (
-    !newProduct.name ||
-    !newProduct.category ||
-    !newProduct.image ||
-    !newProduct.desc
-  ) {
-    toast.error("Please fill all fields!");
-    return;
-  }
+    if (
+      !newProduct.name ||
+      !newProduct.category ||
+      !newProduct.image ||
+      !newProduct.desc
+    ) {
+      toast.error("Please fill all fields!");
+      return;
+    }
 
-  const loadingToast = toast.loading("Publishing product...");
+    const loadingToast = toast.loading("Publishing product...");
 
-  try {
-    setIsSubmitting(true);
+    try {
+      setIsSubmitting(true);
 
-    const formData = new FormData();
-    formData.append("name", newProduct.name);
-    formData.append("category", newProduct.category);
-    formData.append("desc", newProduct.desc);
-    formData.append("image", newProduct.image);
+      const formData = new FormData();
+      formData.append("name", newProduct.name);
+      formData.append("category", newProduct.category);
+      formData.append("desc", newProduct.desc);
+      formData.append("image", newProduct.image);
 
-    const response = await api.post("/products/create", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+      const response = await api.post("/products/create", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-    toast.dismiss(loadingToast);
-    toast.success("🎉 Product added successfully!");
+      toast.dismiss(loadingToast);
+      toast.success("🎉 Product added successfully!");
 
-   setProducts([...products, response.data.product]);
+      setProducts([...products, response.data.product]);
 
-    // Form reset
-    setNewProduct({
-      name: "",
-      category: "Spices",
-      image: "",
-      desc: "",
-    });
+      // Form reset
+      setNewProduct({
+        name: "",
+        category: "Spices",
+        image: "",
+        desc: "",
+      });
 
-    setImagePreview(null);
-    setActiveTab("products");
-  } catch (error) {
-    console.error("Error adding product:", error);
+      setImagePreview(null);
+      setActiveTab("products");
+    } catch (error) {
+      console.error("Error adding product:", error);
 
-    toast.dismiss(loadingToast);
+      toast.dismiss(loadingToast);
 
-    toast.error(
-      error.response?.data?.message || "❌ Failed to add product!"
-    );
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+      toast.error(error.response?.data?.message || "❌ Failed to add product!");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -483,7 +479,7 @@ const AdminDashboard = () => {
               </motion.div>
             )}
 
-            {/* VIEW 3: QUERIES & LEADS */}
+         {/* VIEW 3: QUERIES & LEADS */}
             {activeTab === "queries" && (
               <motion.div
                 key="queries"
@@ -493,47 +489,71 @@ const AdminDashboard = () => {
                 exit="out"
                 transition={{ duration: 0.3 }}
               >
-                <div className="grid gap-4">
+                <div className="flex flex-col gap-4">
                   {isLoading ? (
-                    <div className="text-center p-10 text-gray-400">
+                    <div className="text-center p-10 text-gray-500">
                       Loading queries...
+                    </div>
+                  ) : queries.length === 0 ? (
+                    <div className="text-center p-10 text-gray-500">
+                      No queries found.
                     </div>
                   ) : (
                     queries.map((query) => (
                       <div
-                        key={query.id}
-                        className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 group hover:border-green-200 hover:shadow-md transition-all cursor-pointer"
+                        key={query._id}
+                        className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm"
                       >
-                        <div className="flex flex-col gap-1">
-                          <div className="flex items-center gap-3">
-                            <h4 className="text-lg font-black text-gray-900">
-                              {query.customer}
+                        {/* Top Row: Name, Email & Status */}
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <h4 className="text-lg font-bold text-gray-900">
+                              {query.name}
                             </h4>
+                            <p className="text-sm text-gray-600">
+                              {query.email} 
+                              {query.company && (
+                                <span className="ml-2 text-gray-400">| {query.company}</span>
+                              )}
+                            </p>
+                          </div>
+                          <div className="text-right">
                             <span
-                              className={`text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-md ${
+                              className={`inline-block px-3 py-1 text-xs font-bold rounded-full mb-1 ${
                                 query.status === "New"
                                   ? "bg-blue-100 text-blue-700"
                                   : query.status === "In Progress"
-                                    ? "bg-amber-100 text-amber-700"
-                                    : "bg-gray-100 text-gray-500"
+                                  ? "bg-yellow-100 text-yellow-800"
+                                  : "bg-gray-100 text-gray-600"
                               }`}
                             >
-                              {query.status}
+                              {query.status || "NEW"}
                             </span>
+                            <div className="text-xs text-gray-400 mt-1">
+                              {new Date(query.createdAt).toLocaleDateString("en-IN", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                              })}
+                            </div>
                           </div>
-                          <p className="text-sm text-gray-500 font-medium">
-                            {query.email}
+                        </div>
+
+                        {/* Middle Row: Product Details */}
+                        <div className="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
+                          <p className="text-sm text-gray-800">
+                            <span className="font-semibold text-gray-500 mr-2">Interested in:</span>
+                            <span className="font-bold text-green-700">{query.productName}</span>
+                            <span className="text-gray-400 text-xs ml-2">({query.productCategory})</span>
                           </p>
                         </div>
-                        <div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl text-sm font-semibold text-gray-700 border border-gray-100">
-                          <Package size={14} className="text-green-600" />{" "}
-                          {query.product}
-                        </div>
-                        <div className="flex items-center gap-4 text-sm font-medium text-gray-400">
-                          <span>{query.date}</span>
-                          <button className="bg-white border border-gray-200 text-gray-700 p-2 rounded-lg hover:bg-green-50 hover:text-green-600 hover:border-green-200 transition-all shadow-sm">
-                            <Eye size={16} />
-                          </button>
+
+                        {/* Bottom Row: Message */}
+                        <div>
+                          <p className="text-sm text-gray-700 whitespace-pre-wrap">
+                            <span className="font-semibold text-gray-900 block mb-1">Message:</span>
+                            {query.message}
+                          </p>
                         </div>
                       </div>
                     ))
