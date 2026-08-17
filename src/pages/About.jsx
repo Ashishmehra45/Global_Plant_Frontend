@@ -329,7 +329,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* 5. LEADERSHIP TEAM (2 Top, 3 Bottom Layout) */}
+      {/* 5. LEADERSHIP TEAM */}
       <section className="py-24 bg-gray-50 relative overflow-hidden">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-green-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
@@ -354,15 +354,13 @@ const About = () => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
-            // CHANGED: Yahan grid-cols-6 hata kar direct grid-cols-2 kar diya hai for perfect 2x2 layout
             className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto"
           >
             {leadershipTeam.map((member, idx) => (
               <motion.div
                 key={idx}
                 variants={fadeInUp}
-                // CHANGED: col-span wala complex logic hata diya, ab har card naturally 1 column lega
-                className={`relative group bg-white rounded-[2.5rem] p-8 border border-gray-100 shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col h-full ${
+                className={`relative group bg-white rounded-[2.5rem] p-8 md:px-12 md:py-10 border border-gray-100 shadow-md hover:shadow-2xl transition-all duration-500 flex flex-col h-full ${
                   !member.isComplete
                     ? "bg-gray-50/80 border-dashed border-gray-200"
                     : ""
@@ -370,49 +368,46 @@ const About = () => {
               >
                 {/* 3D Float Effect on Hover */}
                 <motion.div
-                  className="flex-grow flex flex-col items-center text-center"
+                  className="flex-grow flex flex-col items-center text-center h-full"
                   whileHover={{ y: -5 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
+                  {/* Profile Image (Icon removed as requested) */}
                   <div className="relative mb-6">
                     {member.img ? (
-                      <div className="w-46 h-46 rounded-full overflow-hidden border-4 border-green-50 shadow-lg group-hover:border-green-100 transition-colors">
+                      <div className="w-40 h-40 md:w-44 md:h-44 rounded-full overflow-hidden border-[6px] border-green-50 shadow-md group-hover:border-green-100 transition-colors">
                         <img
                           src={member.img}
                           alt={member.name}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         />
                       </div>
                     ) : (
-                      <div className="w-32 h-32 rounded-full bg-gray-200/50 flex items-center justify-center border-4 border-gray-100">
-                        <UserCircle2 className="w-16 h-16 text-gray-400" />
+                      <div className="w-40 h-40 md:w-44 md:h-44 rounded-full bg-gray-100 flex items-center justify-center border-[6px] border-gray-50 shadow-md">
+                        <UserCircle2 className="w-20 h-20 text-gray-300" />
                       </div>
                     )}
-                    {/* Tiny Role Badge */}
-                    <div className="absolute -bottom-2 -right-2 bg-gray-900 text-white p-2 rounded-full shadow-lg">
-                      <Briefcase size={16} />
-                    </div>
                   </div>
 
-                  <h3 className="text-2xl font-black text-gray-900 font-heading tracking-tight mb-2 group-hover:text-green-700 transition-colors">
-                    {member.name}
-                  </h3>
-                  <p className="text-green-600 font-bold text-sm tracking-wide uppercase mb-4">
-                    {member.role}
-                  </p>
+                  {/* Name & Role Section */}
+                  <div className="mb-4 flex flex-col items-center">
+                    <h3 className="text-[1.75rem] font-black text-black font-heading tracking-tight mb-2 group-hover:text-green-800 transition-colors">
+                      {member.name}
+                    </h3>
+                    <p className="text-green-500 font-bold  text-[11px] sm:text-xs tracking-wider uppercase">
+                      {member.role}
+                    </p>
+                  </div>
 
+                  {/* Bio Section with Divider */}
                   <div
-                    className={`mt-auto pt-2 border-t w-full ${
-                      member.isComplete
-                        ? "border-gray-100"
-                        : "border-gray-200 "
+                    className={`pt-3 border-t w-full flex-grow flex text-justify flex-col ${
+                      member.isComplete ? "border-gray-200" : "border-gray-200 "
                     }`}
                   >
                     <p
-                      className={`text-base leading-relaxed ${
-                        member.isComplete
-                          ? "text-gray-600 font-medium"
-                          : "text-gray-600 "
+                      className={`text-sm md:text-[15px] leading-relaxed ${
+                        member.isComplete ? "text-gray-600 font-medium" : "text-gray-600 "
                       }`}
                     >
                       {member.bio}
