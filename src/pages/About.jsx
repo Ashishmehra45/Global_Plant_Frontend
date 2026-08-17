@@ -82,30 +82,30 @@ const About = () => {
   const leadershipTeam = [
     {
       name: "Ravi K. Tiwari",
-      role: "Strategic Advisor, Trade & Investment",
-      bio: "Advises on international market entry and trade strategy. Brings over 15 years of experience advising governments and companies, including ProMéxico India and Government of Ontario. CEO of MIBC and IM Global.",
+      role: "Co-founder & Strategic Advisor, Trade & Investment",
+      bio: "Ravi K. Tiwari advises Global Planet on international market entry and trade strategy. He brings over 15 years of experience advising governments and companies on international trade and investment, including roles with ProMéxico India and the Government of Ontario, Canada. He is currently CEO of the México-India Business Council and IM Global.",
       img: "/leadership/ravi_sir_img-Picsart-AiImageEnhancer.png",
       isComplete: true,
     },
     {
       name: "Krishan Pratap Singh Rajput",
-      role: "Founder & Director",
-      bio: "Leads the company's sourcing, supplier onboarding and export operations, with a focus on building a compliance-first trading house from the ground up.",
+      role: "Co-Founder & Director, Logistics",
+      bio: "Krishan Pratap Singh Rajput co-founded Global Planet Products Export Pvt Ltd, Indore, and with 17 years of experience in logistics operations. He oversees end-to-end export execution, building a compliance-first spice and agri-commodity trading house engineered for consistent, international-grade supply. He is the CEO of Swastika Logitech Pvt Ltd.",
       img: "/leadership/krishan.jpg",
       isComplete: true,
     },
 
     {
       name: "Nilesh Agrawal",
-      role: "Leadership Team",
-      bio: "Detailed professional background and role specifics are currently being updated.",
+      role: "Co-Founder & Director, Sourcing & Procurement",
+      bio: "Nilesh Agrawal co-founded Global Planet and directs sourcing and procurement, bringing three decades of spice trading expertise through his role as Partner at Vishnu Traders, established 1996, alongside hospitality-sector leadership through Swastik Retreat Private Limited. ",
       img:  "/leadership/harsh_Agrawal-.jpg",
       isComplete: false,
     },
     {
       name: "Harsh Agrawal",
-      role: "Leadership Team",
-      bio: "Detailed professional background and role specifics are currently being updated.",
+      role: "Co-Founder & Director, International Marketing",
+      bio: "Harsh Agrawal an IIM certified project management professional co-founded Global Planet and directs international marketing, drawing on cross-sector commercial depth — from government infrastructure development to real estate advisory — anchored by his role as Executive Marketing Director at Vishnu Traders, a leading spice trading house since 1996. ",
       img: "/leadership/harsh_Agrawal-.jpg",
       isComplete: false,
     },
