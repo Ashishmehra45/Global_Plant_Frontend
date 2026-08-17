@@ -84,14 +84,14 @@ const About = () => {
       name: "Ravi K. Tiwari",
       role: "Strategic Advisor, Trade & Investment",
       bio: "Advises on international market entry and trade strategy. Brings over 15 years of experience advising governments and companies, including ProMéxico India and Government of Ontario. CEO of MIBC and IM Global.",
-      img: "leadership/ravi_sir_img-Picsart-AiImageEnhancer.png",
+      img: "/leadership/ravi_sir_img-Picsart-AiImageEnhancer.png",
       isComplete: true,
     },
     {
       name: "Krishan Pratap Singh Rajput",
       role: "Founder & Director",
       bio: "Leads the company's sourcing, supplier onboarding and export operations, with a focus on building a compliance-first trading house from the ground up.",
-      img: "public/leadership/krishan.jpg",
+      img: "/public/leadership/krishan.jpg",
       isComplete: true,
     },
 
@@ -99,14 +99,14 @@ const About = () => {
       name: "Nilesh Agrawal",
       role: "Leadership Team",
       bio: "Detailed professional background and role specifics are currently being updated.",
-      img:  "public/leadership/harsh_Agrawal-.jpg",
+      img:  "/public/leadership/harsh_Agrawal-.jpg",
       isComplete: false,
     },
     {
       name: "Harsh Agrawal",
       role: "Leadership Team",
       bio: "Detailed professional background and role specifics are currently being updated.",
-      img: "public/leadership/harsh_Agrawal-.jpg",
+      img: "/public/leadership/harsh_Agrawal-.jpg",
       isComplete: false,
     },
   ];
