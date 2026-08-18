@@ -99,7 +99,7 @@ const About = () => {
       name: "Nilesh Agrawal",
       role: "Co-Founder & Director, Sourcing & Procurement",
       bio: "Nilesh Agrawal co-founded Global Planet and directs sourcing and procurement, bringing three decades of spice trading expertise through his role as Partner at Vishnu Traders, established 1996, alongside hospitality-sector leadership through Swastik Retreat Private Limited. ",
-      // img:  "/leadership/harsh_Agrawal-.jpg",
+      img:  "/leadership/neelesh-Picsart-AiImageEnhancer.jpg",
       isComplete: false,
     },
     {
