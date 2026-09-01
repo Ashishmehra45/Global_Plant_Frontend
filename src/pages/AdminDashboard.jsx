@@ -11,38 +11,11 @@ import {
   Eye,
   Loader2,
   Image as ImageIcon,
-  Lock, // <-- Ye naya icon add kiya hai
+  Lock,
+  TrendingUp // <-- Ek naya icon Stats ke liye add kiya hai
 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import api from "../api/api";
-
-// --- MOCK DATA FOR QUERIES ---
-const initialQueries = [
-  {
-    id: 101,
-    customer: "John Doe (UK)",
-    email: "john@eurofoods.com",
-    product: "Premium Basmati Rice",
-    status: "New",
-    date: "2026-07-30",
-  },
-  {
-    id: 102,
-    customer: "Alisha Traders (UAE)",
-    email: "contact@alishatrade.ae",
-    product: "Organic Black Pepper",
-    status: "In Progress",
-    date: "2026-07-29",
-  },
-  {
-    id: 103,
-    customer: "Green Earth Inc (USA)",
-    email: "sourcing@greenearth.us",
-    product: "Bulk Spices",
-    status: "Resolved",
-    date: "2026-07-25",
-  },
-];
 
 const AdminDashboard = () => {
   // --- AUTHENTICATION STATES ---
@@ -50,7 +23,7 @@ const AdminDashboard = () => {
   const [passwordInput, setPasswordInput] = useState("");
   const [loginError, setLoginError] = useState("");
 
-  const [activeTab, setActiveTab] = useState("dashboard");
+  const [activeTab, setActiveTab] = useState("dashboard"); // Default tab is dashboard
   const [imagePreview, setImagePreview] = useState(null);
 
   // Data States
@@ -169,8 +142,8 @@ const AdminDashboard = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setNewProduct((prev) => ({ ...prev, image: file })); 
-      setImagePreview(URL.createObjectURL(file)); 
+      setNewProduct((prev) => ({ ...prev, image: file }));
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -182,7 +155,6 @@ const AdminDashboard = () => {
   // --- LOGIN HANDLER ---
   const handleLogin = (e) => {
     e.preventDefault();
-    // Yahan apna password set karo
     if (passwordInput === "admin123") {
       setIsAuthenticated(true);
       toast.success("Welcome back, Admin!");
@@ -275,6 +247,13 @@ const AdminDashboard = () => {
         </div>
 
         <nav className="flex-1 px-4 py-8 space-y-2">
+          {/* Naya Dashboard Button Add Kiya */}
+          <SidebarButton
+            icon={LayoutDashboard}
+            label="Overview"
+            isActive={activeTab === "dashboard"}
+            onClick={() => setActiveTab("dashboard")}
+          />
           <SidebarButton
             icon={Package}
             label="My Products"
@@ -297,7 +276,7 @@ const AdminDashboard = () => {
 
         <div className="p-4 border-t border-gray-800">
           <button 
-            onClick={() => setIsAuthenticated(false)} // Logout feature bhi add kar diya
+            onClick={() => setIsAuthenticated(false)}
             className="flex items-center gap-3 w-full px-4 py-3 text-sm font-bold text-gray-400 hover:text-white hover:bg-red-500/10 rounded-xl transition-all"
           >
             <LogOut size={18} />
@@ -329,6 +308,76 @@ const AdminDashboard = () => {
         {/* Dynamic Views */}
         <div className="p-10 max-w-7xl mx-auto w-full">
           <AnimatePresence mode="wait">
+            
+            {/* VIEW 0: OVERVIEW / DASHBOARD (Ye Naya add kiya hai) */}
+            {activeTab === "dashboard" && (
+              <motion.div
+                key="dashboard"
+                variants={pageVariants}
+                initial="initial"
+                animate="in"
+                exit="out"
+                transition={{ duration: 0.3 }}
+              >
+                {/* Stats Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                  {/* Stat 1 */}
+                  <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-shadow">
+                    <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
+                      <Package size={28} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Total Products</p>
+                      <h3 className="text-3xl font-black text-gray-900">{products.length}</h3>
+                    </div>
+                  </div>
+                  
+                  {/* Stat 2 */}
+                  <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-shadow">
+                    <div className="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center text-green-600">
+                      <MessageSquare size={28} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Total Queries</p>
+                      <h3 className="text-3xl font-black text-gray-900">{queries.length}</h3>
+                    </div>
+                  </div>
+
+                  {/* Stat 3 */}
+                  <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-shadow">
+                    <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600">
+                      <TrendingUp size={28} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">New Leads</p>
+                      <h3 className="text-3xl font-black text-gray-900">
+                        {queries.filter(q => q.status === "New" || !q.status).length}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Welcome Banner */}
+                <div className="bg-[#f8fafa] rounded-[2.5rem] p-10 text-white relative overflow-hidden shadow-2xl">
+                   <div className="absolute top-0 right-0 w-80 h-80 bg-green-500/20 rounded-full blur-[100px] pointer-events-none"></div>
+                   <div className="relative z-10">
+                     <h2 className="text-3xl font-black text-black mb-3 font-heading">Welcome to the Command Center</h2>
+                     <p className="text-gray-400 max-w-xl text-lg mb-8 leading-relaxed">
+                       Manage your entire global export catalog and monitor client leads seamlessly from this unified dashboard.
+                     </p>
+                     <div className="flex gap-4">
+                       <button onClick={() => setActiveTab("create")} className="bg-green-500 hover:bg-green-600 text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-lg hover:shadow-green-500/30 flex items-center gap-2">
+                         <PlusCircle size={18}/> Add Product
+                       </button>
+                       <button onClick={() => setActiveTab("queries")} className="bg-black text-white px-8 py-3.5 rounded-xl font-bold transition-all">
+                         View Latest Leads
+                       </button>
+                     </div>
+                   </div>
+                </div>
+              </motion.div>
+            )}
+
             {/* VIEW 1: MY PRODUCTS */}
             {activeTab === "products" && (
               <motion.div
@@ -561,7 +610,6 @@ const AdminDashboard = () => {
                         key={query._id}
                         className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm"
                       >
-                        {/* Top Row: Name, Email & Status */}
                         <div className="flex justify-between items-start mb-4">
                           <div>
                             <h4 className="text-lg font-bold text-gray-900">
@@ -595,13 +643,12 @@ const AdminDashboard = () => {
                                   day: "2-digit",
                                   month: "short",
                                   year: "numeric",
-                                },
+                                }
                               )}
                             </div>
                           </div>
                         </div>
 
-                        {/* Middle Row: Product Details */}
                         <div className="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
                           <p className="text-sm text-gray-800">
                             <span className="font-semibold text-gray-500 mr-2">
@@ -616,7 +663,6 @@ const AdminDashboard = () => {
                           </p>
                         </div>
 
-                        {/* Bottom Row: Message */}
                         <div>
                           <p className="text-sm text-gray-700 whitespace-pre-wrap">
                             <span className="font-semibold text-gray-900 block mb-1">
