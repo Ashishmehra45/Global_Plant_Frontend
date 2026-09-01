@@ -11,6 +11,7 @@ import {
   Eye,
   Loader2,
   Image as ImageIcon,
+  Lock, // <-- Ye naya icon add kiya hai
 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import api from "../api/api";
@@ -44,6 +45,11 @@ const initialQueries = [
 ];
 
 const AdminDashboard = () => {
+  // --- AUTHENTICATION STATES ---
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [loginError, setLoginError] = useState("");
+
   const [activeTab, setActiveTab] = useState("dashboard");
   const [imagePreview, setImagePreview] = useState(null);
 
@@ -61,47 +67,27 @@ const AdminDashboard = () => {
     desc: "",
   });
 
-  // --- API CALLS ---
+  // --- API CALLS (Only run if authenticated) ---
   useEffect(() => {
-    fetchProducts();
-    fetchQueries();
-  }, []);
+    if (isAuthenticated) {
+      fetchProducts();
+      fetchQueries();
+    }
+  }, [isAuthenticated]);
 
   const fetchProducts = async () => {
     const loadingToast = toast.loading("Loading products...");
 
     try {
       setIsLoading(true);
-
       const response = await api.get("/products/getAllProducts");
       setProducts(response.data);
-
       toast.dismiss(loadingToast);
       toast.success("Products loaded successfully! 🎉");
     } catch (error) {
       console.error("Error fetching products:", error);
-
       toast.dismiss(loadingToast);
       toast.error(error.response?.data?.message || "Failed to fetch products!");
-
-      setProducts([
-        {
-          _id: "1a2b",
-          name: "Premium Basmati Rice",
-          category: "Rice",
-          image:
-            "https://images.unsplash.com/photo-1586201375761-83865001e8ac?q=80&w=200",
-          desc: "High quality rice",
-        },
-        {
-          _id: "3c4d",
-          name: "Organic Black Pepper",
-          category: "Spices",
-          image:
-            "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?q=80&w=200",
-          desc: "Fresh organic pepper",
-        },
-      ]);
     } finally {
       setIsLoading(false);
     }
@@ -112,16 +98,12 @@ const AdminDashboard = () => {
 
     try {
       setIsLoading(true);
-
       const response = await api.get("/products/product/inquiries");
-
       setQueries(response.data);
-
       toast.dismiss(loadingToast);
       toast.success("Queries loaded successfully! 📩");
     } catch (error) {
       console.error("Error fetching queries:", error);
-
       toast.dismiss(loadingToast);
       toast.error(error.response?.data?.message || "Failed to fetch queries!");
     } finally {
@@ -177,9 +159,7 @@ const AdminDashboard = () => {
       setActiveTab("products");
     } catch (error) {
       console.error("Error adding product:", error);
-
       toast.dismiss(loadingToast);
-
       toast.error(error.response?.data?.message || "❌ Failed to add product!");
     } finally {
       setIsSubmitting(false);
@@ -189,8 +169,8 @@ const AdminDashboard = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setNewProduct((prev) => ({ ...prev, image: file })); // File object ko state me save kiya
-      setImagePreview(URL.createObjectURL(file)); // Preview dikhane ke liye local URL banaya
+      setNewProduct((prev) => ({ ...prev, image: file })); 
+      setImagePreview(URL.createObjectURL(file)); 
     }
   };
 
@@ -199,12 +179,86 @@ const AdminDashboard = () => {
     setNewProduct((prev) => ({ ...prev, [name]: value }));
   };
 
+  // --- LOGIN HANDLER ---
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Yahan apna password set karo
+    if (passwordInput === "admin123") {
+      setIsAuthenticated(true);
+      toast.success("Welcome back, Admin!");
+    } else {
+      setLoginError("Incorrect password!");
+      setPasswordInput("");
+    }
+  };
+
   const pageVariants = {
     initial: { opacity: 0, y: 20 },
     in: { opacity: 1, y: 0 },
     out: { opacity: 0, y: -20 },
   };
 
+  // --- LOCK SCREEN VIEW ---
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4 selection:bg-green-500 selection:text-white font-sans relative overflow-hidden">
+        <Toaster position="top-right" />
+        
+        {/* Background Design */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-green-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          className="bg-white p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md border border-gray-100 relative z-10"
+        >
+          <div className="w-20 h-20 bg-green-50 rounded-3xl flex items-center justify-center mb-8 mx-auto shadow-inner border border-green-100">
+            <Lock className="w-10 h-10 text-green-600" />
+          </div>
+          
+          <h2 className="text-3xl font-black text-center text-gray-900 mb-2 font-heading tracking-tight">
+            Admin Access
+          </h2>
+          <p className="text-center text-gray-500 mb-8 font-medium">
+            Enter your secure password to continue
+          </p>
+          
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <input
+                type="password"
+                placeholder="Enter password..."
+                value={passwordInput}
+                onChange={(e) => {
+                  setPasswordInput(e.target.value);
+                  setLoginError("");
+                }}
+                className={`w-full bg-gray-50 border ${loginError ? 'border-red-400 focus:ring-red-500/50' : 'border-gray-200 focus:ring-green-500/50'} text-gray-900 font-bold rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 transition-all text-center tracking-[0.2em] placeholder:tracking-normal placeholder:font-medium`}
+                autoFocus
+              />
+              {loginError && (
+                <motion.p 
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} 
+                  className="text-red-500 text-sm text-center mt-3 font-bold"
+                >
+                  {loginError}
+                </motion.p>
+              )}
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-gray-900 text-white px-8 py-4 rounded-xl font-bold hover:bg-green-600 transition-all duration-300 shadow-xl hover:shadow-green-500/30"
+            >
+              Unlock Dashboard
+            </button>
+          </form>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // --- MAIN DASHBOARD VIEW ---
   return (
     <div className="flex h-screen bg-gray-50 font-sans overflow-hidden selection:bg-green-500 selection:text-white">
       {/* --- SIDEBAR --- */}
@@ -242,7 +296,10 @@ const AdminDashboard = () => {
         </nav>
 
         <div className="p-4 border-t border-gray-800">
-          <button className="flex items-center gap-3 w-full px-4 py-3 text-sm font-bold text-gray-400 hover:text-white hover:bg-red-500/10 rounded-xl transition-all">
+          <button 
+            onClick={() => setIsAuthenticated(false)} // Logout feature bhi add kar diya
+            className="flex items-center gap-3 w-full px-4 py-3 text-sm font-bold text-gray-400 hover:text-white hover:bg-red-500/10 rounded-xl transition-all"
+          >
             <LogOut size={18} />
             Secure Logout
           </button>
@@ -434,7 +491,7 @@ const AdminDashboard = () => {
                           name="image"
                           onChange={handleImageChange}
                           type="file"
-                          accept="image/*" // Sirf images allow karega
+                          accept="image/*"
                           className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-500/50 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
                         />
                       </div>
@@ -479,7 +536,7 @@ const AdminDashboard = () => {
               </motion.div>
             )}
 
-         {/* VIEW 3: QUERIES & LEADS */}
+            {/* VIEW 3: QUERIES & LEADS */}
             {activeTab === "queries" && (
               <motion.div
                 key="queries"
@@ -511,9 +568,11 @@ const AdminDashboard = () => {
                               {query.name}
                             </h4>
                             <p className="text-sm text-gray-600">
-                              {query.email} 
+                              {query.email}
                               {query.company && (
-                                <span className="ml-2 text-gray-400">| {query.company}</span>
+                                <span className="ml-2 text-gray-400">
+                                  | {query.company}
+                                </span>
                               )}
                             </p>
                           </div>
@@ -530,11 +589,14 @@ const AdminDashboard = () => {
                               {query.status || "NEW"}
                             </span>
                             <div className="text-xs text-gray-400 mt-1">
-                              {new Date(query.createdAt).toLocaleDateString("en-IN", {
-                                day: "2-digit",
-                                month: "short",
-                                year: "numeric",
-                              })}
+                              {new Date(query.createdAt).toLocaleDateString(
+                                "en-IN",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                },
+                              )}
                             </div>
                           </div>
                         </div>
@@ -542,16 +604,24 @@ const AdminDashboard = () => {
                         {/* Middle Row: Product Details */}
                         <div className="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
                           <p className="text-sm text-gray-800">
-                            <span className="font-semibold text-gray-500 mr-2">Interested in:</span>
-                            <span className="font-bold text-green-700">{query.productName}</span>
-                            <span className="text-gray-400 text-xs ml-2">({query.productCategory})</span>
+                            <span className="font-semibold text-gray-500 mr-2">
+                              Interested in:
+                            </span>
+                            <span className="font-bold text-green-700">
+                              {query.productName}
+                            </span>
+                            <span className="text-gray-400 text-xs ml-2">
+                              ({query.productCategory})
+                            </span>
                           </p>
                         </div>
 
                         {/* Bottom Row: Message */}
                         <div>
                           <p className="text-sm text-gray-700 whitespace-pre-wrap">
-                            <span className="font-semibold text-gray-900 block mb-1">Message:</span>
+                            <span className="font-semibold text-gray-900 block mb-1">
+                              Message:
+                            </span>
                             {query.message}
                           </p>
                         </div>
