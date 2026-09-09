@@ -12,7 +12,12 @@ import {
   Loader2,
   Image as ImageIcon,
   Lock,
-  TrendingUp // <-- Ek naya icon Stats ke liye add kiya hai
+  Calendar,
+  Mail,
+  Phone,
+  TrendingUp,
+  Users, // <-- Naya icon "Contact Responses" ke liye add kiya
+  Globe, // <-- Naya icon country ke liye
 } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import api from "../api/api";
@@ -23,16 +28,18 @@ const AdminDashboard = () => {
   const [passwordInput, setPasswordInput] = useState("");
   const [loginError, setLoginError] = useState("");
 
-  const [activeTab, setActiveTab] = useState("dashboard"); // Default tab is dashboard
+  const [activeTab, setActiveTab] = useState("dashboard");
   const [imagePreview, setImagePreview] = useState(null);
 
-  // Data States
+  // --- DATA STATES ---
   const [products, setProducts] = useState([]);
   const [queries, setQueries] = useState([]);
+  const [contacts, setContacts] = useState([]); // <-- Naya state Contacts ke liye
+
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Form State matched exactly with Mongoose Schema
+  // Form State
   const [newProduct, setNewProduct] = useState({
     name: "",
     category: "Spices",
@@ -45,40 +52,45 @@ const AdminDashboard = () => {
     if (isAuthenticated) {
       fetchProducts();
       fetchQueries();
+      fetchContacts(); // <-- Nayi API call trigger hogi
     }
   }, [isAuthenticated]);
 
   const fetchProducts = async () => {
-    const loadingToast = toast.loading("Loading products...");
-
     try {
       setIsLoading(true);
       const response = await api.get("/products/getAllProducts");
       setProducts(response.data);
-      toast.dismiss(loadingToast);
-      toast.success("Products loaded successfully! 🎉");
     } catch (error) {
       console.error("Error fetching products:", error);
-      toast.dismiss(loadingToast);
-      toast.error(error.response?.data?.message || "Failed to fetch products!");
     } finally {
       setIsLoading(false);
     }
   };
 
   const fetchQueries = async () => {
-    const loadingToast = toast.loading("Loading queries...");
-
     try {
       setIsLoading(true);
       const response = await api.get("/products/product/inquiries");
       setQueries(response.data);
-      toast.dismiss(loadingToast);
-      toast.success("Queries loaded successfully! 📩");
     } catch (error) {
       console.error("Error fetching queries:", error);
-      toast.dismiss(loadingToast);
-      toast.error(error.response?.data?.message || "Failed to fetch queries!");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // --- NAYI API CALL CONTACT SUBMISSIONS KE LIYE ---
+  const fetchContacts = async () => {
+    try {
+      setIsLoading(true);
+      // Agar base URL mein '/products' prefix hai toh ise change karke '/products/contact/submissions' kar lena
+      const response = await api.get("/products/contact/submissions");
+      // Handle response.data.data agar backend waise bhej raha hai
+      setContacts(response.data.data || response.data);
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+      toast.error("Failed to fetch contact submissions!");
     } finally {
       setIsLoading(false);
     }
@@ -102,7 +114,6 @@ const AdminDashboard = () => {
 
     try {
       setIsSubmitting(true);
-
       const formData = new FormData();
       formData.append("name", newProduct.name);
       formData.append("category", newProduct.category);
@@ -110,24 +121,14 @@ const AdminDashboard = () => {
       formData.append("image", newProduct.image);
 
       const response = await api.post("/products/create", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       toast.dismiss(loadingToast);
       toast.success("🎉 Product added successfully!");
 
       setProducts([...products, response.data.product]);
-
-      // Form reset
-      setNewProduct({
-        name: "",
-        category: "Spices",
-        image: "",
-        desc: "",
-      });
-
+      setNewProduct({ name: "", category: "Spices", image: "", desc: "" });
       setImagePreview(null);
       setActiveTab("products");
     } catch (error) {
@@ -170,13 +171,13 @@ const AdminDashboard = () => {
     out: { opacity: 0, y: -20 },
   };
 
-  // --- LOCK SCREEN VIEW ---
+  // ==========================================
+  // LOCK SCREEN VIEW
+  // ==========================================
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4 selection:bg-green-500 selection:text-white font-sans relative overflow-hidden">
         <Toaster position="top-right" />
-        
-        {/* Background Design */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-green-500/10 rounded-full blur-[100px] pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-teal-500/10 rounded-full blur-[100px] pointer-events-none"></div>
 
@@ -188,14 +189,14 @@ const AdminDashboard = () => {
           <div className="w-20 h-20 bg-green-50 rounded-3xl flex items-center justify-center mb-8 mx-auto shadow-inner border border-green-100">
             <Lock className="w-10 h-10 text-green-600" />
           </div>
-          
+
           <h2 className="text-3xl font-black text-center text-gray-900 mb-2 font-heading tracking-tight">
             Admin Access
           </h2>
           <p className="text-center text-gray-500 mb-8 font-medium">
             Enter your secure password to continue
           </p>
-          
+
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
               <input
@@ -206,12 +207,13 @@ const AdminDashboard = () => {
                   setPasswordInput(e.target.value);
                   setLoginError("");
                 }}
-                className={`w-full bg-gray-50 border ${loginError ? 'border-red-400 focus:ring-red-500/50' : 'border-gray-200 focus:ring-green-500/50'} text-gray-900 font-bold rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 transition-all text-center tracking-[0.2em] placeholder:tracking-normal placeholder:font-medium`}
+                className={`w-full bg-gray-50 border ${loginError ? "border-red-400 focus:ring-red-500/50" : "border-gray-200 focus:ring-green-500/50"} text-gray-900 font-bold rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 transition-all text-center tracking-[0.2em] placeholder:tracking-normal placeholder:font-medium`}
                 autoFocus
               />
               {loginError && (
-                <motion.p 
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} 
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   className="text-red-500 text-sm text-center mt-3 font-bold"
                 >
                   {loginError}
@@ -230,12 +232,14 @@ const AdminDashboard = () => {
     );
   }
 
-  // --- MAIN DASHBOARD VIEW ---
+  // ==========================================
+  // MAIN DASHBOARD VIEW
+  // ==========================================
   return (
     <div className="flex h-screen bg-gray-50 font-sans overflow-hidden selection:bg-green-500 selection:text-white">
-      {/* --- SIDEBAR --- */}
       <Toaster position="top-right" reverseOrder={false} />
 
+      {/* --- SIDEBAR --- */}
       <aside className="w-72 bg-gray-950 text-gray-300 flex flex-col shadow-2xl relative z-20">
         <div className="h-24 flex items-center px-8 border-b border-gray-800">
           <span className="text-2xl font-black text-white tracking-tight flex items-center gap-2">
@@ -247,7 +251,6 @@ const AdminDashboard = () => {
         </div>
 
         <nav className="flex-1 px-4 py-8 space-y-2">
-          {/* Naya Dashboard Button Add Kiya */}
           <SidebarButton
             icon={LayoutDashboard}
             label="Overview"
@@ -268,14 +271,21 @@ const AdminDashboard = () => {
           />
           <SidebarButton
             icon={MessageSquare}
-            label="Queries & Leads"
+            label="Product Queries"
             isActive={activeTab === "queries"}
             onClick={() => setActiveTab("queries")}
+          />
+          {/* --- NAYA BUTTON --- */}
+          <SidebarButton
+            icon={Users}
+            label="Contact Responses"
+            isActive={activeTab === "contacts"}
+            onClick={() => setActiveTab("contacts")}
           />
         </nav>
 
         <div className="p-4 border-t border-gray-800">
-          <button 
+          <button
             onClick={() => setIsAuthenticated(false)}
             className="flex items-center gap-3 w-full px-4 py-3 text-sm font-bold text-gray-400 hover:text-white hover:bg-red-500/10 rounded-xl transition-all"
           >
@@ -306,10 +316,11 @@ const AdminDashboard = () => {
         </header>
 
         {/* Dynamic Views */}
-        <div className="p-10 max-w-7xl mx-auto w-full">
+        <div className="p-6 md:p-10 max-w-7xl mx-auto w-full">
           <AnimatePresence mode="wait">
-            
-            {/* VIEW 0: OVERVIEW / DASHBOARD (Ye Naya add kiya hai) */}
+            {/* ======================================= */}
+            {/* VIEW 0: OVERVIEW / DASHBOARD            */}
+            {/* ======================================= */}
             {activeTab === "dashboard" && (
               <motion.div
                 key="dashboard"
@@ -319,66 +330,108 @@ const AdminDashboard = () => {
                 exit="out"
                 transition={{ duration: 0.3 }}
               >
-                {/* Stats Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                {/* Stats Grid - Ab 4 cards hain */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                   {/* Stat 1 */}
-                  <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-shadow">
-                    <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
-                      <Package size={28} />
+                  <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
+                    <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-4">
+                      <Package size={24} />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Total Products</p>
-                      <h3 className="text-3xl font-black text-gray-900">{products.length}</h3>
-                    </div>
-                  </div>
-                  
-                  {/* Stat 2 */}
-                  <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-shadow">
-                    <div className="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center text-green-600">
-                      <MessageSquare size={28} />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Total Queries</p>
-                      <h3 className="text-3xl font-black text-gray-900">{queries.length}</h3>
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
+                        Total Products
+                      </p>
+                      <h3 className="text-3xl font-black text-gray-900">
+                        {products.length}
+                      </h3>
                     </div>
                   </div>
 
-                  {/* Stat 3 */}
-                  <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex items-center gap-5 hover:shadow-md transition-shadow">
-                    <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600">
-                      <TrendingUp size={28} />
+                  {/* Stat 2 */}
+                  <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
+                    <div className="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center text-green-600 mb-4">
+                      <MessageSquare size={24} />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">New Leads</p>
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
+                        Product Queries
+                      </p>
                       <h3 className="text-3xl font-black text-gray-900">
-                        {queries.filter(q => q.status === "New" || !q.status).length}
+                        {queries.length}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Stat 3 - NAYA STAT FOR CONTACTS */}
+                  <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
+                    <div className="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 mb-4">
+                      <Users size={24} />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
+                        Contact Forms
+                      </p>
+                      <h3 className="text-3xl font-black text-gray-900">
+                        {contacts.length}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Stat 4 */}
+                  <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition-shadow">
+                    <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600 mb-4">
+                      <TrendingUp size={24} />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">
+                        Total Leads
+                      </p>
+                      <h3 className="text-3xl font-black text-gray-900">
+                        {queries.length + contacts.length}
                       </h3>
                     </div>
                   </div>
                 </div>
 
                 {/* Welcome Banner */}
-                <div className="bg-[#f8fafa] rounded-[2.5rem] p-10 text-white relative overflow-hidden shadow-2xl">
-                   <div className="absolute top-0 right-0 w-80 h-80 bg-green-500/20 rounded-full blur-[100px] pointer-events-none"></div>
-                   <div className="relative z-10">
-                     <h2 className="text-3xl font-black text-black mb-3 font-heading">Welcome to the Command Center</h2>
-                     <p className="text-gray-400 max-w-xl text-lg mb-8 leading-relaxed">
-                       Manage your entire global export catalog and monitor client leads seamlessly from this unified dashboard.
-                     </p>
-                     <div className="flex gap-4">
-                       <button onClick={() => setActiveTab("create")} className="bg-green-500 hover:bg-green-600 text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-lg hover:shadow-green-500/30 flex items-center gap-2">
-                         <PlusCircle size={18}/> Add Product
-                       </button>
-                       <button onClick={() => setActiveTab("queries")} className="bg-black text-white px-8 py-3.5 rounded-xl font-bold transition-all">
-                         View Latest Leads
-                       </button>
-                     </div>
-                   </div>
+                <div className="bg-[#f8fafa] rounded-[2.5rem] p-10 text-black border border-gray-200 relative overflow-hidden shadow-xl">
+                  <div className="absolute top-0 right-0 w-80 h-80 bg-green-500/20 rounded-full blur-[100px] pointer-events-none"></div>
+                  <div className="relative z-10">
+                    <h2 className="text-3xl font-black mb-3 font-heading">
+                      Welcome to the Command Center
+                    </h2>
+                    <p className="text-gray-500 max-w-xl text-lg mb-8 leading-relaxed font-medium">
+                      Manage your entire global export catalog and monitor
+                      client leads seamlessly from this unified dashboard.
+                    </p>
+                    <div className="flex flex-wrap gap-4">
+                      <button
+                        onClick={() => setActiveTab("create")}
+                        className="bg-green-500 hover:bg-green-600 text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-lg hover:shadow-green-500/30 flex items-center gap-2"
+                      >
+                        <PlusCircle size={18} /> Add Product
+                      </button>
+                      <button
+                        onClick={() => setActiveTab("queries")}
+                        className="bg-gray-900 hover:bg-gray-800 text-white px-8 py-3.5 rounded-xl font-bold transition-all"
+                      >
+                        View Queries
+                      </button>
+                      <button
+                        onClick={() => setActiveTab("contacts")}
+                        className="bg-white hover:bg-gray-50 border border-gray-200 text-gray-900 px-8 py-3.5 rounded-xl font-bold transition-all"
+                      >
+                        Contact Submissions
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             )}
 
-            {/* VIEW 1: MY PRODUCTS */}
+            {/* ======================================= */}
+            {/* VIEW 1: MY PRODUCTS                     */}
+            {/* ======================================= */}
             {activeTab === "products" && (
               <motion.div
                 key="products"
@@ -464,7 +517,9 @@ const AdminDashboard = () => {
               </motion.div>
             )}
 
-            {/* VIEW 2: CREATE PRODUCT */}
+            {/* ======================================= */}
+            {/* VIEW 2: CREATE PRODUCT                  */}
+            {/* ======================================= */}
             {activeTab === "create" && (
               <motion.div
                 key="create"
@@ -478,7 +533,6 @@ const AdminDashboard = () => {
                   <h3 className="font-black text-2xl text-gray-900 mb-6 font-heading">
                     Add New Commodity
                   </h3>
-
                   <form className="space-y-6" onSubmit={handleAddProduct}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
@@ -495,7 +549,6 @@ const AdminDashboard = () => {
                           placeholder="e.g., Premium Saffron"
                         />
                       </div>
-
                       <div className="space-y-2">
                         <label className="text-sm font-bold text-gray-700">
                           Category
@@ -521,7 +574,6 @@ const AdminDashboard = () => {
                         Upload Product Image
                       </label>
                       <div className="flex items-center gap-4">
-                        {/* Image Preview Box */}
                         {imagePreview ? (
                           <img
                             src={imagePreview}
@@ -533,8 +585,6 @@ const AdminDashboard = () => {
                             <ImageIcon size={24} />
                           </div>
                         )}
-
-                        {/* File Input */}
                         <input
                           required
                           name="image"
@@ -585,7 +635,9 @@ const AdminDashboard = () => {
               </motion.div>
             )}
 
-            {/* VIEW 3: QUERIES & LEADS */}
+            {/* ======================================= */}
+            {/* VIEW 3: PRODUCT QUERIES                 */}
+            {/* ======================================= */}
             {activeTab === "queries" && (
               <motion.div
                 key="queries"
@@ -595,80 +647,226 @@ const AdminDashboard = () => {
                 exit="out"
                 transition={{ duration: 0.3 }}
               >
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-6">
                   {isLoading ? (
-                    <div className="text-center p-10 text-gray-500">
-                      Loading queries...
+                    <div className="text-center p-12 text-gray-400 font-medium bg-white rounded-3xl border border-dashed border-gray-200">
+                      <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3 text-green-500" />
+                      Loading your leads...
                     </div>
                   ) : queries.length === 0 ? (
-                    <div className="text-center p-10 text-gray-500">
+                    <div className="text-center p-12 text-gray-400 font-medium bg-white rounded-3xl border border-dashed border-gray-200">
                       No queries found.
                     </div>
                   ) : (
                     queries.map((query) => (
                       <div
                         key={query._id}
-                        className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm"
+                        className="bg-white rounded-[1.5rem] p-6 md:p-8 border border-gray-100 shadow-sm hover:shadow-lg hover:border-green-100 transition-all duration-300 group"
                       >
-                        <div className="flex justify-between items-start mb-4">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-gray-50">
                           <div>
-                            <h4 className="text-lg font-bold text-gray-900">
-                              {query.name}
-                            </h4>
-                            <p className="text-sm text-gray-600">
-                              {query.email}
+                            <div className="flex items-center gap-3 mb-2">
+                              <h4 className="text-2xl font-black text-gray-900 font-heading">
+                                {query.name}
+                              </h4>
                               {query.company && (
-                                <span className="ml-2 text-gray-400">
-                                  | {query.company}
+                                <span className="bg-gray-100 text-gray-600 text-xs font-bold px-2.5 py-1 rounded-md">
+                                  {query.company}
                                 </span>
                               )}
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <span
-                              className={`inline-block px-3 py-1 text-xs font-bold rounded-full mb-1 ${
-                                query.status === "New"
-                                  ? "bg-blue-100 text-blue-700"
-                                  : query.status === "In Progress"
-                                  ? "bg-yellow-100 text-yellow-800"
-                                  : "bg-gray-100 text-gray-600"
-                              }`}
-                            >
-                              {query.status || "NEW"}
-                            </span>
-                            <div className="text-xs text-gray-400 mt-1">
+                            </div>
+                            <p className="text-sm font-medium text-gray-400 flex items-center gap-1.5">
+                              <Calendar size={14} />
                               {new Date(query.createdAt).toLocaleDateString(
                                 "en-IN",
                                 {
                                   day: "2-digit",
                                   month: "short",
                                   year: "numeric",
-                                }
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                },
                               )}
+                            </p>
+                          </div>
+                          <div className="flex-shrink-0">
+                            <span
+                              className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-full flex items-center gap-2 w-max ${query.status === "New" ? "bg-blue-50 text-blue-600 border border-blue-100" : query.status === "In Progress" ? "bg-amber-50 text-amber-600 border border-amber-100" : "bg-gray-50 text-gray-600 border border-gray-200"}`}
+                            >
+                              <span
+                                className={`w-2 h-2 rounded-full ${query.status === "New" ? "bg-blue-500" : query.status === "In Progress" ? "bg-amber-500" : "bg-gray-400"}`}
+                              ></span>
+                              {query.status || "NEW"}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                          <div className="space-y-4">
+                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                              Contact Details
+                            </p>
+                            <div className="space-y-3">
+                              <div className="flex items-center gap-3 text-sm text-gray-700 font-medium bg-gray-50/50 p-3 rounded-xl border border-gray-50">
+                                <Mail size={16} className="text-gray-400" />
+                                {query.email}
+                              </div>
+                              <div className="flex items-center gap-3 text-sm text-gray-700 font-medium bg-gray-50/50 p-3 rounded-xl border border-gray-50">
+                                <Phone size={16} className="text-gray-400" />
+                                {query.phone ? (
+                                  query.phone
+                                ) : (
+                                  <span className="text-gray-400 italic">
+                                    Not provided
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="space-y-4">
+                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                              Product Interest
+                            </p>
+                            <div className="flex items-center gap-4 bg-green-50/50 p-4 rounded-xl border border-green-100 group-hover:bg-green-50 transition-colors">
+                              <div className="bg-white p-2.5 rounded-lg shadow-sm border border-green-50">
+                                <Package size={20} className="text-green-600" />
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-xs font-bold text-green-600 uppercase mb-0.5">
+                                  {query.productCategory || "Product"}
+                                </span>
+                                <span className="text-base font-black text-gray-900">
+                                  {query.productName}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        <div className="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
-                          <p className="text-sm text-gray-800">
-                            <span className="font-semibold text-gray-500 mr-2">
-                              Interested in:
-                            </span>
-                            <span className="font-bold text-green-700">
-                              {query.productName}
-                            </span>
-                            <span className="text-gray-400 text-xs ml-2">
-                              ({query.productCategory})
-                            </span>
+                        <div className="bg-gray-50 rounded-2xl p-5 border border-gray-100 relative">
+                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                            <MessageSquare size={14} /> Client Message
+                          </p>
+                          <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap font-medium">
+                            {query.message}
                           </p>
                         </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </motion.div>
+            )}
 
-                        <div>
-                          <p className="text-sm text-gray-700 whitespace-pre-wrap">
-                            <span className="font-semibold text-gray-900 block mb-1">
-                              Message:
+            {/* ======================================= */}
+            {/* VIEW 4: CONTACT US RESPONSES (NAYA VIEW)*/}
+            {/* ======================================= */}
+            {activeTab === "contacts" && (
+              <motion.div
+                key="contacts"
+                variants={pageVariants}
+                initial="initial"
+                animate="in"
+                exit="out"
+                transition={{ duration: 0.3 }}
+              >
+                <div className="flex flex-col gap-6">
+                  {isLoading ? (
+                    <div className="text-center p-12 text-gray-400 font-medium bg-white rounded-3xl border border-dashed border-gray-200">
+                      <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3 text-purple-500" />
+                      Loading contact responses...
+                    </div>
+                  ) : contacts.length === 0 ? (
+                    <div className="text-center p-12 text-gray-400 font-medium bg-white rounded-3xl border border-dashed border-gray-200">
+                      No contact submissions found.
+                    </div>
+                  ) : (
+                    contacts.map((contact) => (
+                      <div
+                        key={contact._id}
+                        className="bg-white rounded-[1.5rem] p-6 md:p-8 border border-gray-100 shadow-sm hover:shadow-lg hover:border-purple-100 transition-all duration-300 group"
+                      >
+                        {/* Header Row */}
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-6 border-b border-gray-50">
+                          <div>
+                            <div className="flex items-center gap-3 mb-2">
+                              <h4 className="text-2xl font-black text-gray-900 font-heading">
+                                {contact.name}
+                              </h4>
+                              {contact.company && (
+                                <span className="bg-purple-50 text-purple-700 border border-purple-100 text-xs font-bold px-2.5 py-1 rounded-md">
+                                  {contact.company}
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-sm font-medium text-gray-400 flex items-center gap-1.5">
+                              <Calendar size={14} />
+                              {new Date(contact.createdAt).toLocaleDateString(
+                                "en-IN",
+                                {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                },
+                              )}
+                            </p>
+                          </div>
+                          <div className="flex-shrink-0">
+                            <span
+                              className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-full flex items-center gap-2 w-max ${contact.status === "New" ? "bg-blue-50 text-blue-600 border border-blue-100" : contact.status === "In Progress" ? "bg-amber-50 text-amber-600 border border-amber-100" : "bg-gray-50 text-gray-600 border border-gray-200"}`}
+                            >
+                              <span
+                                className={`w-2 h-2 rounded-full ${contact.status === "New" ? "bg-blue-500" : contact.status === "In Progress" ? "bg-amber-500" : "bg-gray-400"}`}
+                              ></span>
+                              {contact.status || "NEW"}
                             </span>
-                            {query.message}
+                          </div>
+                        </div>
+
+                        {/* Detail Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
+                          <div className="space-y-4">
+                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                              Client Location
+                            </p>
+                            <div className="flex items-center gap-3 text-sm text-gray-700 font-medium bg-gray-50/50 p-3 rounded-xl border border-gray-50">
+                              <Globe size={16} className="text-gray-400" />
+                              {contact.country || "Not Specified"}
+                            </div>
+                          </div>
+
+                          <div className="space-y-4">
+                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                              Order Requirements
+                            </p>
+                            <div className="flex items-center gap-4 bg-purple-50/50 p-4 rounded-xl border border-purple-100 group-hover:bg-purple-50 transition-colors">
+                              <div className="bg-white p-2.5 rounded-lg shadow-sm border border-purple-50">
+                                <Package
+                                  size={20}
+                                  className="text-purple-600"
+                                />
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-xs font-bold text-purple-600 uppercase mb-0.5">
+                                  {contact.product || "Product"}
+                                </span>
+                                <span className="text-base font-black text-gray-900">
+                                  Qty: {contact.quantity || "N/A"}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Message Box */}
+                        <div className="bg-gray-50 rounded-2xl p-5 border border-gray-100 relative">
+                          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                            <MessageSquare size={14} /> Contact Message
+                          </p>
+                          <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap font-medium">
+                            {contact.message}
                           </p>
                         </div>
                       </div>

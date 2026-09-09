@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Download, Send, Loader2, CheckCircle2 } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "../api/api";
-import Brochures from "/Global Planet Brochure.pdf"
+import Brochures from "/Global Planet Brochure (1).pdf"
 
 const ProductDetail = () => {
   const { id } = useParams(); // URL se Product ki ID nikal li
